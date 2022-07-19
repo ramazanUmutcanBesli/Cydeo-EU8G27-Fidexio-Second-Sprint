@@ -16,7 +16,10 @@ public class CustomersPage extends BasePage {
     public WebElement customersButton;
     @FindBy(xpath = "//button[@accessKey='c']")
     public WebElement createButton;
-    @FindBy(xpath = "//button[@accessKey='c']")
-    public WebElement newLabel;
+    @FindBy(xpath = "//input[@data-value='person']")
+    public WebElement individualbutton;
+    @FindBy(xpath = "//input[@data-value='company']")
+    public WebElement companyButton;
+
 
 }
