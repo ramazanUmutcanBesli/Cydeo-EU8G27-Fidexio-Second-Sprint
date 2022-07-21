@@ -3,15 +3,21 @@ package com.cydeo.step_definitions;
 import com.cydeo.pages.BasePage;
 import com.cydeo.pages.NewVehicleCostPage;
 import com.cydeo.utilities.BrowserUtils;
+import com.cydeo.utilities.Driver;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class NewVehicleCostSteps {
 
     BasePage basePage = new BasePage();
     NewVehicleCostPage vehiclePage = new NewVehicleCostPage();
+    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
 
 
     @Then("User should see {string} option at the top of the home page")
@@ -74,9 +80,41 @@ public class NewVehicleCostSteps {
         Assert.assertEquals(expectedText, vehiclePage.vehicleCostsText.getText());
     }
 
+    @When("user clicks Create button")
+    public void user_clicks_create_button() {
+        vehiclePage.createBtn.click();
+    }
+    @Then("User should see {string} header and {string}, {string}, {string}, {string}, {string} options correctly in the middle of the page")
+    public void user_should_see_header_and_options_correctly_in_the_middle_of_the_page(String expCostDetails, String expVehicle, String expType, String expTotPrice, String expCostDesc, String expDate) {
+        BrowserUtils.sleep(3);
+        Assert.assertEquals(expCostDetails, vehiclePage.costDetailsTxt.getText());
+        Assert.assertEquals(expVehicle, vehiclePage.vehicleTxt.getText());
+        Assert.assertEquals(expType, vehiclePage.typeTxt.getText());
+        Assert.assertEquals(expTotPrice, vehiclePage.totPriceTxt.getText());
+        Assert.assertEquals(expCostDesc, vehiclePage.costDescTxt.getText());
+        Assert.assertEquals(expDate, vehiclePage.dateTxt.getText());
+    }
 
+    @Then("User should be able to select a vehicle {string} from Vehicle dropdown")
+    public void user_should_be_able_to_select_a_vehicle_from_vehicle_dropdown(String vehicleName) {
 
+        System.out.println("vehicleName = " + vehicleName);
+        BrowserUtils.sleep(2);
+        vehiclePage.vehicleInput.click();
 
+        Assert.assertEquals(vehicleName, Driver.getDriver().findElement(By.xpath("//a[.='"+vehicleName+"']")).getText());
+        Driver.getDriver().findElement(By.xpath("//a[.='"+vehicleName+"']")).click();
+    }
 
+    @Then("User should be able to select a type of cost {string} from Type dropdown")
+    public void user_should_be_able_to_select_a_type_of_cost_from_type_dropdown(String costType) {
+
+        System.out.println("costType = " + costType);
+        BrowserUtils.sleep(2);
+        vehiclePage.typeInput.click();
+
+        Assert.assertEquals(costType, Driver.getDriver().findElement(By.xpath("//a[.='"+costType+"']")).getText());
+        Driver.getDriver().findElement(By.xpath("//a[.='"+costType+"']")).click();
+    }
 
 }
