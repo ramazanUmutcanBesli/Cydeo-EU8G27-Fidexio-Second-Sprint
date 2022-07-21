@@ -1,5 +1,11 @@
 package com.cydeo.pages;
 
+import com.cydeo.utilities.Driver;
+import org.junit.Assert;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
 public class US36DurakSurveysPage extends BasePage{
     public US36DurakSurveysPage(){
         PageFactory.initElements(Driver.getDriver(),this);
@@ -56,7 +62,7 @@ public class US36DurakSurveysPage extends BasePage{
             case "":
                 this.editBtn.click();
                 // if edit windows shows up than
-                Assertion.assertTrue(Driver.getDriver().getUrl().contains("edit"));
+                Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains("edit"));
                 break;
         }
     }
@@ -77,7 +83,7 @@ public class US36DurakSurveysPage extends BasePage{
                 this.editBtn.click();
                 // if edit windows shows up than make assertion
                 if(checkBtn){
-                    Assertion.assertTrue(Driver.getDriver().getUrl().contains("edit"));
+                    Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains("edit"));
                 }
                 break;
         }
