@@ -9,14 +9,14 @@ Feature: As a PosManager, I should be able to create and design a new survey fro
 
     Scenario: All buttons work as expected at the survey design stage before creating a Survey
 
-
+    @wip
     Scenario: As a user, I should be able to create a new survey in Survey module
         When user sees "posmanager10" in the title
         Then user clicks "Surveys" option at the top bar of the home page
         And user should be landing on "Surveys" page
-        Then user clicks "create" button top left side of the page
+        Then user clicks "create" button
         And user enters "Survey Title" on upcoming window
-        Then user clicks "Save" button top left side of the page
+        Then user clicks "Save" button
         Then verify that "Survey created" message appears under the survey form sheet
 
     

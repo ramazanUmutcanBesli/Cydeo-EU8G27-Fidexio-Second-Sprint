@@ -11,11 +11,20 @@ public class US36DurakSurveysPage extends BasePage{
         PageFactory.initElements(Driver.getDriver(),this);
     }
 
+    @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,'Surveys')]")
+    public WebElement surveysButton;
+
     @FindBy()
     public WebElement saveBtn;
 
-    @FindBy()
+    @FindBy(css = "button.o-kanban-button-new")
     public WebElement createBtn;
+
+    @FindBy(css = "button.o_form_button_cancel")
+    public WebElement discardBtn;
+
+    @FindBy(css = "input[placeholder='Survey Title']")
+    public WebElement surveyTitle;
 
     @FindBy()
     public WebElement importBtn;
@@ -29,16 +38,19 @@ public class US36DurakSurveysPage extends BasePage{
     @FindBy()
     public WebElement editBtn;
 
-    @FindBy()
+    @FindBy(css = "div.o_statusbar_buttons>button:nth-of-type(1)")
+    public WebElement designSurveyBtn;
+
+    @FindBy(css = "div.o_statusbar_buttons>button:nth-of-type(2)")
     public WebElement testSurveyBtn;
 
-    @FindBy()
+    @FindBy(css = "div.o_statusbar_buttons>button:nth-of-type(3)")
     public WebElement printSurveyBtn;
 
-    @FindBy()
+    @FindBy(css = "div.o_statusbar_buttons>button:nth-of-type(4)")
     public WebElement shareAndInviteByEmailBtn;
 
-    @FindBy()
+    @FindBy(css = "div.o_statusbar_buttons>button:nth-of-type(5)")
     public WebElement viewResultsBtn;
 
     @FindBy()
