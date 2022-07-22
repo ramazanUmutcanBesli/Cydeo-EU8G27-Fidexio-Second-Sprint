@@ -12,7 +12,7 @@ public class Hooks {
     public void tearDownScenario(){
         Driver.closeDriver();
     }
-    @AfterStep
+    @AfterStep(value = "@dont_run")
     public void eachStepScreenShot(Scenario scenario){
         byte[] screenshot =((TakesScreenshot)Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshot,"image/png", scenario.getName());

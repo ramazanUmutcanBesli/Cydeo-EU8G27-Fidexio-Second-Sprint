@@ -3,16 +3,22 @@ package com.cydeo.pages;
 import com.cydeo.utilities.Driver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Random;
 
 public class US36DurakSurveysPage extends BasePage {
     public US36DurakSurveysPage() {
         PageFactory.initElements(Driver.getDriver(), this);
     }
+
+    WebDriverWait wait = new WebDriverWait(Driver.getDriver(),10);
 
     @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,'Surveys')]")
     public WebElement surveysButton;
@@ -41,8 +47,20 @@ public class US36DurakSurveysPage extends BasePage {
     @FindBy(css = "button.o_import_cancel")
     public WebElement cancelBtn;
 
-    @FindBy()
+    @FindBy(css = "div[data-id='1']>div>div>span:last-of-type>i")
     public WebElement plusBtn;
+
+    @FindBy(css = "div[data-id='1']>div.o_kanban_quick_create>input")
+    public WebElement quickSurveyTitle;
+
+    @FindBy(css = "div[data-id='1']>div.o_kanban_quick_create>button:nth-of-type(1)")
+    public WebElement quickAdd;
+
+    @FindBy(css = "div[data-id='1']>div.o_kanban_quick_create>button:nth-of-type(2)")
+    public WebElement quickEdit;
+
+    @FindBy(css = "div[data-id='1']>div.o_kanban_quick_create>button:nth-of-type(3)")
+    public WebElement quickDiscard;
 
     @FindBy(css = "div.o_dropdown_kanban>a[data-toggle='dropdown']")
     public WebElement threeDot;
@@ -58,6 +76,15 @@ public class US36DurakSurveysPage extends BasePage {
 
     @FindBy(css = "div.o_statusbar_buttons>button:nth-of-type(1)")
     public WebElement designSurveyBtn;
+
+    @FindBy(css = ".btn.btn-primary.btn-lg")
+    public WebElement startSurvey;
+
+    @FindBy(css = ".jumbotron.mt32>h1")
+    public WebElement startSurveyContent;
+
+    @FindBy(css = ".pull-right>a")
+    public WebElement backToSurvey;
 
     @FindBy(css = "div.o_statusbar_buttons>button:nth-of-type(2)")
     public WebElement testSurveyBtn;
@@ -109,8 +136,7 @@ public class US36DurakSurveysPage extends BasePage {
     }
 
     /**
-     * This method click selected button; only accepts one paramtere
-     *
+     * This method click selected button; only accepts one parameter
      * @param clickBtn
      */
     public void clickBtn(String clickBtn) {
@@ -139,6 +165,12 @@ public class US36DurakSurveysPage extends BasePage {
             case "design survey":
                 this.designSurveyBtn.click();
                 break;
+            case "start survey":
+                this.startSurvey.click();
+                break;
+            case "back to survey":
+                this.backToSurvey.click();
+                break;
             case "test survey":
                 this.testSurveyBtn.click();
                 break;
@@ -161,7 +193,40 @@ public class US36DurakSurveysPage extends BasePage {
                 this.threeDotMenu_EditSurvey.click();
                 break;
             case "select any color":
+                this.setColor();
+                break;
+            case "plus button":
+                this.plusBtn.click();
+                break;
+            case "quick survey title":
+                this.quickSurveyTitle.click();
+                break;
+            case "quick add":
+                this.quickAdd.click();
+                break;
+            case "quick edit":
+                this.quickEdit.click();
+                break;
+            case "quick discard":
+                this.quickDiscard.click();
+                break;
         }
+    }
+
+    /**
+     * This method verify selected message; only accepts one parameter
+     * @param message
+     */
+    public void verify(String message) {
+        try {
+            wait.withTimeout(Duration.ofSeconds(2))
+                    .until(ExpectedConditions.titleContains(message));
+        }catch (TimeoutException ignored){}
+
+        if (Driver.getDriver().getTitle().contains(message)){
+            Assert.assertTrue(Driver.getDriver().getTitle().contains(message));
+        }
+        else Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains(message));
     }
 
     /**

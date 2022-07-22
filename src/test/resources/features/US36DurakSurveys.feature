@@ -12,12 +12,14 @@ Feature: As a PosManager, I should be able to create and design a new survey fro
     When user sees "POSManager10" in the title
     Then user clicks "Surveys" option at the top bar of the home page
     And user should be landing on "Surveys" page
-    Given user clicks "Create" button
-    Given user clicks "Discard" button
-    Given user clicks "Import" button
-    Given user clicks "Cancel" button
-    Given user clicks "List view" button
-    Given user clicks "Kanban view" button
+    And user clicks all current buttons one by one
+      | Action      | Verification  |
+      | Create      | New           |
+      | Discard     | Surveys       |
+      | Import      | Import a File |
+      | Cancel      | Surveys       |
+      | List view   | list          |
+      | Kanban view | kanban        |
 
 
 
@@ -31,13 +33,22 @@ Feature: As a PosManager, I should be able to create and design a new survey fro
     Then verify that "Survey created" message appears under the survey form sheet
 
 
-  Scenario: All buttons work as expected at the survey design stage during creation of a Survey
-    Given user clicks "buttons" on the page one by one  # buttons can be data table
-
-
-  Scenario: User should be able to see created survey is listed after clicking the Surveys module
-    Then user clicks "Surveys" option at the top bar of the home page
-    Then verify that created Survey takes place under Draft or In Progress bar
+  #Scenario: User should be able to see created survey is listed after clicking the Surveys module
+    #Then user clicks "Surveys" option at the top bar of the home page
+    #Then verify that created Survey takes place under Draft or In Progress bar
 
 
   Scenario: All buttons work as expected at the survey design stage after creating a Survey
+    When user sees "POSManager10" in the title
+    Then user clicks "Surveys" option at the top bar of the home page
+    And user should be landing on "Surveys" page
+    Then user clicks "create" button
+    And user clicks all current buttons one by one
+      | Action                    | Verification  |
+      | Design Survey             |               |
+      | Start Survey              | Survey        |
+      | Back To Survey            | Surveys       |
+      | Test Survey               |               |
+      | Print Survey              |               |
+      | Share and invite by email |               |
+      | View results              | Survey Result |
