@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,7 +19,8 @@ public class US36DurakSurveysPage extends BasePage {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
-    WebDriverWait wait = new WebDriverWait(Driver.getDriver(),10);
+    WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+    Actions actions = new Actions(Driver.getDriver());
 
     @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,'Surveys')]")
     public WebElement surveysButton;
@@ -80,8 +82,11 @@ public class US36DurakSurveysPage extends BasePage {
     @FindBy(css = ".btn.btn-primary.btn-lg")
     public WebElement startSurvey;
 
-    @FindBy(css = ".jumbotron.mt32>h1")
-    public WebElement startSurveyContent;
+    @FindBy(css = "div.o_dialog_warning modal-body")
+    public WebElement warningMessage;
+
+    @FindBy(css = ".modal-footer>button.btn.btn-sm.btn-primary")
+    public WebElement warningClickOk;
 
     @FindBy(css = ".pull-right>a")
     public WebElement backToSurvey;
@@ -114,10 +119,10 @@ public class US36DurakSurveysPage extends BasePage {
      * This method will pick random color from three dot menu for created survey
      * This method will accept no parameter
      */
-    public void setColor(){
+    public void setColor() {
         int randomNum = new Random().nextInt(11) + 2; //Random numbers between 2-12, 1 is default selection
 
-        WebElement setColor = Driver.getDriver().findElement(By.cssSelector(".oe_kanban_colorpicker>li:nth-of-type("+randomNum+")"));
+        WebElement setColor = Driver.getDriver().findElement(By.cssSelector(".oe_kanban_colorpicker>li:nth-of-type(" + randomNum + ")"));
         setColor.click();
 
     }
@@ -137,6 +142,7 @@ public class US36DurakSurveysPage extends BasePage {
 
     /**
      * This method click selected button; only accepts one parameter
+     *
      * @param clickBtn
      */
     public void clickBtn(String clickBtn) {
@@ -215,59 +221,31 @@ public class US36DurakSurveysPage extends BasePage {
 
     /**
      * This method verify selected message; only accepts one parameter
+     *
      * @param message
      */
     public void verify(String message) {
         try {
             wait.withTimeout(Duration.ofSeconds(2))
                     .until(ExpectedConditions.titleContains(message));
-        }catch (TimeoutException ignored){}
-
-        if (Driver.getDriver().getTitle().contains(message)){
+        } catch (TimeoutException ignored) {
+        }
+        if (Driver.getDriver().getTitle().contains(message)) {
             Assert.assertTrue(Driver.getDriver().getTitle().contains(message));
-        }
-        else Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains(message));
-    }
-
-    /**
-     * This method will return true or false according to functionality of the selected button
-     * This method get one method, which clicks the requested button
-     * @param button
-     */
-
-    public void clickOrCheckBtn(String button) {
-
-        switch (button) {
-            case "":
-                this.editBtn.click();
-                // if edit windows shows up than
-                Assert.assertTrue(Driver.getDriver().getTitle().contains("edit"));
-                break;
+        } else if (Driver.getDriver().getCurrentUrl().contains(message))
+            Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains(message));
+        else {
+            switch (message) {
+                case "error":
+                    Assert.assertEquals(
+                            "You cannot send an invitation for a survey that has no questions.",
+                            this.warningMessage.getText());
+                    actions.click(this.warningClickOk).perform();
+                    WebElement ok = Driver.getDriver().findElement(By.cssSelector(".modal-footer>button>span"));
+                    System.out.println(ok.getText());
+                    ok.click();
+                    break;
+            }
         }
     }
-
-
-    /**
-     * This method is a overloading method, which also accepts a boolean parameter for make assertion
-     * This method will return true or false according to functionality of the selected button
-     * This method get two method, which select the requested button and assert its functionality
-     *
-     * @param button
-     * @param checkBtn
-     */
-
-    public void clickOrCheckBtn(String button, boolean checkBtn) {
-
-        switch (button) {
-            case "":
-                this.editBtn.click();
-                // if edit windows shows up than make assertion
-                if (checkBtn) {
-                    Assert.assertTrue(Driver.getDriver().getTitle().contains("edit"));
-                }
-                break;
-        }
-    }
-
-
 }
