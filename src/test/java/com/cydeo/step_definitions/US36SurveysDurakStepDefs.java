@@ -38,6 +38,7 @@ public class US36SurveysDurakStepDefs {
     @Then("user clicks {string} button")
     public void user_clicks_button_top_left_side_of_the_page(String clickBtn) {
         surveysPage.clickBtn(clickBtn);
+        BrowserUtils.sleep(2);
     }
 
     @Then("user enters Survey Title as {string} on upcoming window")

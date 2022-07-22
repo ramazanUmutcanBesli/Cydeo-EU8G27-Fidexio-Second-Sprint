@@ -2,9 +2,12 @@ package com.cydeo.pages;
 
 import com.cydeo.utilities.Driver;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.Random;
 
 public class US36DurakSurveysPage extends BasePage {
     public US36DurakSurveysPage() {
@@ -26,14 +29,23 @@ public class US36DurakSurveysPage extends BasePage {
     @FindBy(css = "h1>input")
     public WebElement surveyTitle;
 
-    @FindBy()
+    @FindBy(css = ".o_cp_switch_buttons>button:first-of-type")
+    public WebElement kanbanViewBtn;
+
+    @FindBy(css = ".o_cp_switch_buttons>button:last-of-type")
+    public WebElement listViewBtn;
+
+    @FindBy(css = "button.o_button_import")
     public WebElement importBtn;
+
+    @FindBy(css = "button.o_import_cancel")
+    public WebElement cancelBtn;
 
     @FindBy()
     public WebElement plusBtn;
 
     @FindBy(css = "div.o_dropdown_kanban>a[data-toggle='dropdown']")
-    public WebElement threeDot_OnRightTopOfCreatedSurvey;
+    public WebElement threeDot;
 
     @FindBy(css = "div.o_dropdown_kanban>ul>li:nth-of-type(1)")
     public WebElement threeDotMenu_EditSurvey;
@@ -71,6 +83,17 @@ public class US36DurakSurveysPage extends BasePage {
     @FindBy(css = "div.o_thread_message_content")
     public WebElement surveyCreatedMessage;
 
+    /**
+     * This method will pick random color from three dot menu for created survey
+     * This method will accept no parameter
+     */
+    public void setColor(){
+        int randomNum = new Random().nextInt(11) + 2; //Random numbers between 2-12, 1 is default selection
+
+        WebElement setColor = Driver.getDriver().findElement(By.cssSelector(".oe_kanban_colorpicker>li:nth-of-type("+randomNum+")"));
+        setColor.click();
+
+    }
 
     /**
      * This method will navigate ot the selected menu option
@@ -95,6 +118,18 @@ public class US36DurakSurveysPage extends BasePage {
             case "create":
                 this.createBtn.click();
                 break;
+            case "import":
+                this.importBtn.click();
+                break;
+            case "cancel":
+                this.cancelBtn.click();
+                break;
+            case "kanban view":
+                this.kanbanViewBtn.click();
+                break;
+            case "list view":
+                this.listViewBtn.click();
+                break;
             case "save":
                 this.saveBtn.click();
                 break;
@@ -116,6 +151,16 @@ public class US36DurakSurveysPage extends BasePage {
             case "view results":
                 this.viewResultsBtn.click();
                 break;
+            case "three dot":
+                this.threeDot.click();
+                break;
+            case "delete":
+                this.threeDotMenu_Delete.click();
+                break;
+            case "edit survey":
+                this.threeDotMenu_EditSurvey.click();
+                break;
+            case "select any color":
         }
     }
 
