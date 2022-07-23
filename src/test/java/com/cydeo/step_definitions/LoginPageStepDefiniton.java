@@ -14,8 +14,8 @@ public class LoginPageStepDefiniton {
     BasePage basePage=new BasePage();
     @Given("user is on the login page of fidexio page")
     public void user_is_on_the_login_page_of_fidexio_page() {
-        Driver.getDriver().get("https://app.fidexio.com/");
-        //Driver.getDriver().get(ConfigurationReader.getProperty("login.page.url"));
+        //Driver.getDriver().get("https://app.fidexio.com/");
+        Driver.getDriver().get(ConfigurationReader.getProperty("login.page.url"));
     }
     @When("user enters username {string}")
     public void user_enters_username(String string) {

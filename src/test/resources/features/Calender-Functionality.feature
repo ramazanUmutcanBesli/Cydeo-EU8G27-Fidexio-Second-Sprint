@@ -1,4 +1,4 @@
-@FIDEX-538
+
 Feature: Default
 
 	Background: User should be at the "url" page
