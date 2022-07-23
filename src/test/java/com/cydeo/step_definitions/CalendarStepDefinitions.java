@@ -20,14 +20,11 @@ public class CalendarStepDefinitions {
 
     }
 
-    @And("user see Calender Page")
-    public void userSeeCalenderPage() {
-    }
 
     @And("user is clicks on the Day button")
     public void userIsClicksOnTheDayButton() {
         fidexio43.dayButton.click();
-        BrowserUtils.sleep(1);
+        BrowserUtils.sleep(2);
     }
 
     @Then("user see text at the top of the page {string}")
@@ -84,6 +81,13 @@ public class CalendarStepDefinitions {
 
     @Then("user edit a created event")
     public void userEditACreatedEvent() {
+        fidexio43.editDay.click();
+        BrowserUtils.sleep(2);
+        fidexio43.editButton.click();
+        BrowserUtils.sleep(2);
+        fidexio43.editSaveButton.click();
+        BrowserUtils.sleep(2);
+
     }
 
     @Given("user see {string} on main board")
@@ -130,6 +134,7 @@ public class CalendarStepDefinitions {
 
     @And("user is enters the{string} in Daily time box")
     public void userIsEntersTheInDailyTimeBox(String string) {
+       BrowserUtils.sleep(2);
         fidexio43.dailyInput.sendKeys(string);
     }
 
@@ -148,6 +153,7 @@ public class CalendarStepDefinitions {
 
     @Then("user creat any issue in Weekly time box")
     public void userCreatAnyIssueInWeeklyTimeBox() {
+        BrowserUtils.sleep(2);
         fidexio43.weeklyCreate.click();
     }
 }

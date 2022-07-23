@@ -102,10 +102,12 @@ Feature: Default
 	@FIDEX-534
 	Scenario : TC008 User can edit acreated event on Daily time box
 
+		Given user clicks the Calendar button
+		And user clicks the Date button
 		And user is clicks on the Day button
 		And user is clicks the Daily time box
 		And user is enters the"vip meeting" in Daily time box
-		And user creat any issue
+		Then user creat any issue in Daily box
 		Then user edit a created event
 		And  user is clicks on the Log out button
 
@@ -116,10 +118,12 @@ Feature: Default
 	@FIDEX-535
 	Scenario : TC009 User can edit acreated event on Weekly time box
 
-		And user is clicks on the Week button
+		Given user clicks the Calendar button
+		And user clicks the Date button
+		Given user is clicks on the Week button
 		And user is clicks the Weekly time box
-		And user is enters the"vip meeting"
-		And user creat any issue
+		And user is enters the"vip meeting" in weekly time box
+		Then user creat any issue in Weekly time box
 		Then user edit a created event
 		And  user is clicks on the Log out button
 
@@ -129,10 +133,12 @@ Feature: Default
 	Scenario : TC010 User can edit a created event on Montly time box
 	on the login page
 
-		And user is clicks on the Week button
-		And user is clicks the Weekly time box
-		And user is enters the"vip meeting"
-		And user creat any issue
+		Given user clicks the Calendar button
+		And user clicks the Date button
+		And user is clicks on the Month button
+		And user is clicks the Monthly time box
+		And user is enters the"vip meeting" in Montly time box
+		Then user creat any issue in Montly time box
 		Then user edit a created event
 		And  user is clicks on the Log out button
 
@@ -141,9 +147,11 @@ Feature: Default
 
 	@FIDEX-537
 	Scenario: US35-TC02 Posmanager,first lands on weekly display
-		e
-
-		    And user see main board
-		    And user clicks the Calendar button
-		    And user see Calender Page
+		Given user is on the login page of fidexio page
+		When user enters username "posmanager10@info.com"
+		And user enters password "posmanager"
+		And user clicks to login button
+		Given user see "Inbox" on main board
+		And user clicks the Calendar button
+		And user see "All day" on Calender Page
 		And  user is clicks on the Log out button

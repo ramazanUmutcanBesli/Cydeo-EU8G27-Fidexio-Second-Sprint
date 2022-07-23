@@ -54,6 +54,13 @@ public class FidexioCalendarPage {
     public WebElement dailyCreate;
     @FindBy(xpath = "//*[@id=\"modal_105\"]/div/div/div[3]/button[1]/span")
     public WebElement weeklyCreate;
+    @FindBy(xpath = "/html/body/div[1]/div[2]/div[2]/div/div/div/div[1]/div[1]/div/div/table/tbody/tr/td/div/div/div[4]/div[1]/table/tbody/tr/td[8]")
+    public WebElement editDay;
+    @FindBy(xpath = "//*[@id=\"modal_214\"]/div/div/div[3]/button[1]/span")
+    public WebElement editButton;
+    @FindBy(xpath = "//*[@id=\"modal_272\"]/div/div/div[3]/button[1]/span")
+    public WebElement editSaveButton;
+
 
 
 
