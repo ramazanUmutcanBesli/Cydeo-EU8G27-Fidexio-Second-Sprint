@@ -54,6 +54,6 @@ Feature: As a PosManager, I should be able to create and design a new survey fro
       | Print Survey              | Print               |
       | Back To Survey            | My new Survey 6     |
       | Share and invite by email | Error               |
-#     | View results              | Survey Result       |
+      | View results              | Survey Result       |
 #Test Survey couldn't be verified!!!
   # Share and invite by email, error message doesn't disappear

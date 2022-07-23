@@ -1,5 +1,6 @@
 package com.cydeo.pages;
 
+import com.cydeo.utilities.BrowserUtils;
 import com.cydeo.utilities.Driver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -82,10 +83,10 @@ public class US36DurakSurveysPage extends BasePage {
     @FindBy(css = ".btn.btn-primary.btn-lg")
     public WebElement startSurvey;
 
-    @FindBy(css = "div.o_dialog_warning modal-body")
+    @FindBy(css = "div.o_dialog_warning.modal-body")
     public WebElement warningMessage;
 
-    @FindBy(css = ".modal-footer>button.btn.btn-sm.btn-primary")
+    @FindBy(css = "div.modal-footer>button.btn.btn-sm.btn-primary")
     public WebElement warningClickOk;
 
     @FindBy(css = ".pull-right>a")
@@ -236,14 +237,11 @@ public class US36DurakSurveysPage extends BasePage {
             Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains(message));
         else {
             switch (message) {
-                case "error":
-                    Assert.assertEquals(
-                            "You cannot send an invitation for a survey that has no questions.",
-                            this.warningMessage.getText());
-                    actions.click(this.warningClickOk).perform();
-                    WebElement ok = Driver.getDriver().findElement(By.cssSelector(".modal-footer>button>span"));
-                    System.out.println(ok.getText());
-                    ok.click();
+                case "Error":
+                    String actualResult = this.warningMessage.getText();
+                    Assert.assertEquals("You cannot send an invitation for a survey that has no questions.", actualResult);
+                    //wait.until(ExpectedConditions.elementToBeClickable(this.warningClickOk));
+                    this.warningClickOk.click();
                     break;
             }
         }
