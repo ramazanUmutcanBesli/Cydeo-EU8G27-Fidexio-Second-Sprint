@@ -10,19 +10,23 @@ Feature: Default
 
 
 	@FIDEX-526
-	Scenario: US35-TC01 Salesmanager,first lands on weekly display
+	Scenario: US35-TC01 Posmanager,first lands on weekly display
 
-		    Given user see main board
+
+		    Given user see "Inbox" on main board
 		    And user clicks the Calendar button
-		    And user see Calender Page	
+		    And user see "All day" on Calender Page
+		   And  user is clicks on the Log out button
 
 
 	@FIDEX-527
 	Scenario : TC002-Users can change the display " clicks the  Day button"
 
 		Given user clicks the Calendar button
+		And user clicks the Date button
 		And user is clicks on the Day button
-		Then user see text at the top of the page "Best solution for startup"
+		Then posmanager see "Saturday" on Calender Page
+		And  user is clicks on the Log out button
 
 
 
@@ -30,8 +34,11 @@ Feature: Default
 	@FIDEX-528
 	Scenario : TC003-Users can change the display " clicks the Week button"
 
-		Given user is clicks on the Week button
-		Then user see text at the top of the page "Best solution for startup"
+		Given user clicks the Calendar button
+		And user clicks the Date button
+		And user is clicks on the Week button
+		Then posmanager see "W31" on Calender Page
+		And  user is clicks on the Log out button
 		
 
 
@@ -39,8 +46,12 @@ Feature: Default
 	@FIDEX-529
 	Scenario : TC004-Users can change the display " clicks the Month button"
 
-		Given user is clicks on the Month button
-		Then user see text at the top of the page "Best solution for startup"
+
+		Given user clicks the Calendar button
+		And user clicks the Date button
+		And user is clicks on the Month button
+		Then user see text at the top of the page "W"
+		And  user is clicks on the Log out button
 		
 
 
@@ -48,10 +59,13 @@ Feature: Default
 	@FIDEX-530
 	Scenario : TC005 Users can create an event by clicking on the Day time box
 
+		Given user clicks the Calendar button
+		And user clicks the Date button
 		And user is clicks on the Day button
 		And user is clicks the Daily time box
-		And user is enters the"vip meeting"
-		Then user creat any issue
+		And user is enters the"vip meeting" in Daily time box
+		Then user creat any issue in Daily box
+		And  user is clicks on the Log out button
 
 
 
@@ -59,10 +73,13 @@ Feature: Default
 	@FIDEX-532
 	Scenario : TC006 Users can create an event by clicking on the Week time box
 
+		Given user clicks the Calendar button
+		And user clicks the Date button
 		Given user is clicks on the Week button
 		And user is clicks the Weekly time box
-		And user is enters the"vip meeting"
-		Then user creat any issue
+		And user is enters the"vip meeting" in weekly time box
+		Then user creat any issue in Weekly time box
+		And  user is clicks on the Log out button
 
 
 
@@ -70,10 +87,13 @@ Feature: Default
 	@FIDEX-533
 	Scenario : TC007 Users can create an event by clicking on the Month time box
 
+		Given user clicks the Calendar button
+		And user clicks the Date button
 		And user is clicks on the Month button
 		And user is clicks the Monthly time box
-		And user is enters the"vip meeting"
-		Then user creat any issue
+		And user is enters the"vip meeting" in Montly time box
+		Then user creat any issue in Montly time box
+		And  user is clicks on the Log out button
 
 
 
@@ -84,9 +104,10 @@ Feature: Default
 
 		And user is clicks on the Day button
 		And user is clicks the Daily time box
-		And user is enters the"vip meeting"
+		And user is enters the"vip meeting" in Daily time box
 		And user creat any issue
 		Then user edit a created event
+		And  user is clicks on the Log out button
 
 
 
@@ -100,6 +121,7 @@ Feature: Default
 		And user is enters the"vip meeting"
 		And user creat any issue
 		Then user edit a created event
+		And  user is clicks on the Log out button
 
 
 
@@ -112,6 +134,7 @@ Feature: Default
 		And user is enters the"vip meeting"
 		And user creat any issue
 		Then user edit a created event
+		And  user is clicks on the Log out button
 
 
 
@@ -123,3 +146,4 @@ Feature: Default
 		    And user see main board
 		    And user clicks the Calendar button
 		    And user see Calender Page
+		And  user is clicks on the Log out button
