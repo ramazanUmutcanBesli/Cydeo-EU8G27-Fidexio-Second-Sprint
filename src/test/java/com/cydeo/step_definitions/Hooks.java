@@ -1,9 +1,9 @@
 package com.cydeo.step_definitions;
 
 import com.cydeo.utilities.Driver;
+import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Scenario;
-import org.junit.After;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
