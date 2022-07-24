@@ -105,8 +105,11 @@ public class US36DurakSurveysPage extends BasePage {
     @FindBy()
     public WebElement actionDropDown;
 
-    @FindBy()
-    public WebElement timeSign_OnRightBottomOfCreatedSurvey;
+    @FindBy(css = ".oe_kanban_card>div>div>div>a")
+    public WebElement timeSign;
+
+    @FindBy(css = ".oe_kanban_card>div>div>div>ul>li:first-of-type")
+    public WebElement noActivity;
 
     @FindBy(css = "div.o_thread_message_content")
     public WebElement surveyCreatedMessage;
@@ -218,6 +221,11 @@ public class US36DurakSurveysPage extends BasePage {
             case "quick discard":
                 this.quickDiscard.click();
                 break;
+            case "time sign":
+                this.timeSign.click();
+                break;
+            case "back to survey menu":
+                this.menuBar("surveys");
         }
     }
 
@@ -245,6 +253,9 @@ public class US36DurakSurveysPage extends BasePage {
                     //wait.until(ExpectedConditions.elementToBeClickable(this.warningClickOk));
                     this.warningClickOk.click();
                     break;
+                case "No activities":
+                    Assert.assertEquals("No activities planned.",this.noActivity.getText());
+                    break;
             }
         }
     }
@@ -271,10 +282,10 @@ public class US36DurakSurveysPage extends BasePage {
         String willBeDeletedSurvey = generatedSurveyTitle;
         for (WebElement each : surveyList) {
             if (each.getText().equalsIgnoreCase(willBeDeletedSurvey)) {
-                String threeDot = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + willBeDeletedSurvey + "']/../../..//a[@class='dropdown-toggle btn']";
+                String threeDot = "//div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + willBeDeletedSurvey + "']/../../..//a[@class='dropdown-toggle btn']";
                 WebElement threeDotBtn = Driver.getDriver().findElement(By.xpath(threeDot));
                 actions.click(threeDotBtn);
-                String path = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + willBeDeletedSurvey + "']/../../..//ul/li//a[@*='delete']";
+                String path = "//div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + willBeDeletedSurvey + "']/../../..//ul/li//a[@*='delete']";
                 WebElement deleteSurvey = Driver.getDriver().findElement(By.xpath(path));
                 actions.click(deleteSurvey).perform();
 
@@ -303,10 +314,10 @@ public class US36DurakSurveysPage extends BasePage {
         String editSurveyTitle = generatedSurveyTitle;
         for (WebElement each : surveyList) {
             if (each.getText().equalsIgnoreCase(editSurveyTitle)) {
-                String threeDot = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + editSurveyTitle + "']/../../..//a[@class='dropdown-toggle btn']";
+                String threeDot = "//div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + editSurveyTitle + "']/../../..//a[@class='dropdown-toggle btn']";
                 WebElement threeDotBtn = Driver.getDriver().findElement(By.xpath(threeDot));
                 actions.click(threeDotBtn);
-                String path = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + editSurveyTitle + "']/../../..//ul/li//a[@*='edit']";
+                String path = "//div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + editSurveyTitle + "']/../../..//ul/li//a[@*='edit']";
                 WebElement editSurvey = Driver.getDriver().findElement(By.xpath(path));
                 actions.click(editSurvey).perform();
             }

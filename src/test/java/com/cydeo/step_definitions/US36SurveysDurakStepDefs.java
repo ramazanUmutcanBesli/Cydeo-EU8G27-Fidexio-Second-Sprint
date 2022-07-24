@@ -63,13 +63,15 @@ public class US36SurveysDurakStepDefs {
         } else {
             //converting Lists
             List<List<String>> AVList = dataTable.asLists();
-            System.out.println("Action: " + AVList.get(0).get(0));
-            surveysPage.clickBtn(AVList.get(0).get(0));
-            BrowserUtils.sleep(1);
+            for (List<String> row : AVList) {
+                System.out.println("Action: " + row.get(0));
+                surveysPage.clickBtn(row.get(0));
+                BrowserUtils.sleep(1);
 
-            System.out.println("Verification: " + AVList.get(0).get(1));
-            surveysPage.clickBtn(AVList.get(0).get(1));
-            BrowserUtils.sleep(1);
+                System.out.println("Verification: " + row.get(1));
+                surveysPage.verify(row.get(1));
+                BrowserUtils.sleep(1);
+            }
         }
     }
 

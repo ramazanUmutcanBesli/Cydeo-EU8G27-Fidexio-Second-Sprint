@@ -43,7 +43,7 @@ Feature: As a PosManager, I should be able to create and design a new survey fro
       | Design Survey             | my-new-survey          |
       | Start Survey              | Survey has no pages    |
       | Back To Survey            | generated survey title |
-      | Test Survey               | generated survey title                 |
+      | Test Survey               | generated survey title |
       | Back To Survey            | generated survey title |
       | Print Survey              | Print                  |
       | Back To Survey            | generated survey title |
@@ -55,7 +55,7 @@ Feature: As a PosManager, I should be able to create and design a new survey fro
     Given user create a Survey
     And user clicks "Surveys" option at the top bar of the home page
     And user clicks listed buttons
+      | time sign             | No activities          |
       | three dot edit survey | generated survey title |
-    And user clicks "Surveys" option at the top bar of the home page
-    And user clicks listed buttons
-      | three dot delete | Surveys |
+      | Back To Survey Menu   | Surveys                |
+      | three dot delete      | Surveys                |
