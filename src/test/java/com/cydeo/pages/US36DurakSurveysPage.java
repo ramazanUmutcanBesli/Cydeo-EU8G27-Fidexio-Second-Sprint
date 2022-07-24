@@ -1,7 +1,9 @@
 package com.cydeo.pages;
 
+import com.cydeo.step_definitions.US36SurveysDurakStepDefs;
 import com.cydeo.utilities.BrowserUtils;
 import com.cydeo.utilities.Driver;
+import com.github.javafaker.Faker;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -13,7 +15,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class US36DurakSurveysPage extends BasePage {
     public US36DurakSurveysPage() {
@@ -23,8 +28,7 @@ public class US36DurakSurveysPage extends BasePage {
     WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
     Actions actions = new Actions(Driver.getDriver());
 
-    @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,'Surveys')]")
-    public WebElement surveysButton;
+    public String generatedSurveyTitle;
 
     @FindBy(css = "button[accesskey=\"s\"]")
     public WebElement saveBtn;
@@ -64,15 +68,6 @@ public class US36DurakSurveysPage extends BasePage {
 
     @FindBy(css = "div[data-id='1']>div.o_kanban_quick_create>button:nth-of-type(3)")
     public WebElement quickDiscard;
-
-    @FindBy(css = "div.o_dropdown_kanban>a[data-toggle='dropdown']")
-    public WebElement threeDot;
-
-    @FindBy(css = "div.o_dropdown_kanban>ul>li:nth-of-type(1)")
-    public WebElement threeDotMenu_EditSurvey;
-
-    @FindBy(css = "div.o_dropdown_kanban>ul>li:nth-of-type(2)")
-    public WebElement threeDotMenu_Delete;
 
     @FindBy()
     public WebElement editBtn;
@@ -115,6 +110,15 @@ public class US36DurakSurveysPage extends BasePage {
 
     @FindBy(css = "div.o_thread_message_content")
     public WebElement surveyCreatedMessage;
+
+    @FindBy(css = ".modal-footer>button:first-of-type")
+    public WebElement confirmationOK;
+
+    @FindBy(css = ".modal-footer>button:first-of-type")
+    public WebElement errorOK;
+
+    @FindBy(xpath = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span")
+    List<WebElement> surveyList;
 
     /**
      * This method will pick random color from three dot menu for created survey
@@ -190,14 +194,11 @@ public class US36DurakSurveysPage extends BasePage {
             case "view results":
                 this.viewResultsBtn.click();
                 break;
-            case "three dot":
-                this.threeDot.click();
+            case "three dot delete":
+                this.eraseGeneratedSurvey();
                 break;
-            case "delete":
-                this.threeDotMenu_Delete.click();
-                break;
-            case "edit survey":
-                this.threeDotMenu_EditSurvey.click();
+            case "three dot edit survey":
+                this.editGeneratedSurvey();
                 break;
             case "select any color":
                 this.setColor();
@@ -223,20 +224,22 @@ public class US36DurakSurveysPage extends BasePage {
     /**
      * This method verify selected message; only accepts one parameter
      *
-     * @param message
+     * @param verificationValue
      */
-    public void verify(String message) {
-        try {
-            wait.withTimeout(Duration.ofSeconds(2))
-                    .until(ExpectedConditions.titleContains(message));
-        } catch (TimeoutException ignored) {
+    public void verify(String verificationValue) {
+        if (generatedSurveyTitle.equals("generated survey title")) {
+            verificationValue = generatedSurveyTitle;
         }
-        if (Driver.getDriver().getTitle().contains(message)) {
-            Assert.assertTrue(Driver.getDriver().getTitle().contains(message));
-        } else if (Driver.getDriver().getCurrentUrl().contains(message))
-            Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains(message));
+        try {
+            wait.withTimeout(Duration.ofSeconds(2)).until(ExpectedConditions.titleContains(verificationValue));
+        } catch (TimeoutException ignored) {}
+
+        if (Driver.getDriver().getTitle().contains(verificationValue)) {
+            Assert.assertTrue(Driver.getDriver().getTitle().contains(verificationValue));
+        } else if (Driver.getDriver().getCurrentUrl().contains(verificationValue))
+            Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains(verificationValue));
         else {
-            switch (message) {
+            switch (verificationValue) {
                 case "Error":
                     String actualResult = this.warningMessage.getText();
                     Assert.assertEquals("You cannot send an invitation for a survey that has no questions.", actualResult);
@@ -245,5 +248,81 @@ public class US36DurakSurveysPage extends BasePage {
                     break;
             }
         }
+    }
+
+    /**
+     * This method check whether the created survey is on the survey list
+     * This method accepts only one parameter
+     *
+     * @param wantedSurveyTitle
+     */
+    public boolean searchSurveyTitle(String wantedSurveyTitle) {
+        List<WebElement> surveyList = Driver.getDriver().findElements(By.cssSelector("div[data-id='1']>div.oe_kanban_card>div>h4>span"));
+        for (WebElement each : surveyList) {
+            if (each.getText().equalsIgnoreCase(wantedSurveyTitle)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method simply erases the generated survey
+     * If any failure happens during deletion, then it should be done manually
+     */
+    public void eraseGeneratedSurvey() {
+        String willBeDeletedSurvey = generatedSurveyTitle;
+        for (WebElement each : surveyList) {
+            if (each.getText().equalsIgnoreCase(willBeDeletedSurvey)) {
+                String threeDot = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + willBeDeletedSurvey + "']/../../..//a[@class='dropdown-toggle btn']";
+                WebElement threeDotBtn = Driver.getDriver().findElement(By.xpath(threeDot));
+                actions.click(threeDotBtn);
+                String path = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + willBeDeletedSurvey + "']/../../..//ul/li//a[@*='delete']";
+                WebElement deleteSurvey = Driver.getDriver().findElement(By.xpath(path));
+                actions.click(deleteSurvey).perform();
+
+                //Confirmation message pops up
+                //This command clicks OK
+                this.confirmationOK.click();
+                BrowserUtils.sleep(1);
+                //If a failure message pops up, these lines close it
+                Driver.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+                try {
+                    if (this.errorOK.isDisplayed()) {
+                        this.errorOK.click();
+                        System.out.println("Survey couldn't be erased!!!");
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        }
+    }
+
+    /**
+     * This method simply navigates the generated survey to edit page
+     */
+    public void editGeneratedSurvey() {
+        String editSurveyTitle = generatedSurveyTitle;
+        for (WebElement each : surveyList) {
+            if (each.getText().equalsIgnoreCase(editSurveyTitle)) {
+                String threeDot = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + editSurveyTitle + "']/../../..//a[@class='dropdown-toggle btn']";
+                WebElement threeDotBtn = Driver.getDriver().findElement(By.xpath(threeDot));
+                actions.click(threeDotBtn);
+                String path = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + editSurveyTitle + "']/../../..//ul/li//a[@*='edit']";
+                WebElement editSurvey = Driver.getDriver().findElement(By.xpath(path));
+                actions.click(editSurvey).perform();
+            }
+        }
+    }
+
+    /**
+     * This method generates a random Survey Title
+     * no @param
+     */
+    public void generateSurvey(){
+        Faker fakeSurveyTitle = new Faker();
+        generatedSurveyTitle = fakeSurveyTitle.animal().name();
+        System.out.println(generatedSurveyTitle);
+        this.surveyTitle.click();
+        BrowserUtils.sleep(1);
+        this.surveyTitle.sendKeys(generatedSurveyTitle);
     }
 }
