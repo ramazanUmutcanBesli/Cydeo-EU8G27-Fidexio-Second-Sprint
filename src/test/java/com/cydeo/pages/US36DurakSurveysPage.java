@@ -28,7 +28,7 @@ public class US36DurakSurveysPage extends BasePage {
     WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
     Actions actions = new Actions(Driver.getDriver());
 
-    public String generatedSurveyTitle;
+    public static String generatedSurveyTitle;
 
     @FindBy(css = "button[accesskey=\"s\"]")
     public WebElement saveBtn;
@@ -227,13 +227,12 @@ public class US36DurakSurveysPage extends BasePage {
      * @param verificationValue
      */
     public void verify(String verificationValue) {
-        if (generatedSurveyTitle.equals("generated survey title")) {
+        if (verificationValue.equals("generated survey title")) {
             verificationValue = generatedSurveyTitle;
         }
         try {
             wait.withTimeout(Duration.ofSeconds(2)).until(ExpectedConditions.titleContains(verificationValue));
         } catch (TimeoutException ignored) {}
-
         if (Driver.getDriver().getTitle().contains(verificationValue)) {
             Assert.assertTrue(Driver.getDriver().getTitle().contains(verificationValue));
         } else if (Driver.getDriver().getCurrentUrl().contains(verificationValue))
@@ -291,6 +290,7 @@ public class US36DurakSurveysPage extends BasePage {
                         System.out.println("Survey couldn't be erased!!!");
                     }
                 } catch (Exception ignored) {
+                    System.out.println("Survey is deleted successfully");
                 }
             }
         }
@@ -320,7 +320,7 @@ public class US36DurakSurveysPage extends BasePage {
     public void generateSurvey(){
         Faker fakeSurveyTitle = new Faker();
         generatedSurveyTitle = fakeSurveyTitle.animal().name();
-        System.out.println(generatedSurveyTitle);
+        //System.out.println(generatedSurveyTitle);
         this.surveyTitle.click();
         BrowserUtils.sleep(1);
         this.surveyTitle.sendKeys(generatedSurveyTitle);

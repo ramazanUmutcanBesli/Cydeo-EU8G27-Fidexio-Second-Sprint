@@ -5,6 +5,7 @@ import com.cydeo.utilities.BrowserUtils;
 import com.cydeo.utilities.Driver;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import org.openqa.selenium.interactions.Actions;
@@ -31,7 +32,7 @@ public class US36SurveysDurakStepDefs {
     }
 
     @Then("user clicks {string} button")
-    public void user_clicks_button_top_left_side_of_the_page(String clickBtn) {
+    public void user_clicks_button(String clickBtn) {
         surveysPage.clickBtn(clickBtn);
         BrowserUtils.sleep(2);
     }
@@ -46,17 +47,29 @@ public class US36SurveysDurakStepDefs {
         Assert.assertEquals(message, surveysPage.surveyCreatedMessage.getText());
     }
 
-    @And("user clicks all current buttons one by one")
+    @And("user clicks listed buttons")
     public void userClicksAllCurrentButtonsOneByOne(DataTable dataTable) {
-        List<Map<String,String>> actionVerificationTable = dataTable.asMaps();
+        if (dataTable.asLists().get(0).get(0).contains("Action")) {
+            // Converting Maps
+            List<Map<String, String>> actionVerificationTable = dataTable.asMaps();
+            for (Map<String, String> each : actionVerificationTable) {
+                System.out.println("Action: " + each.get("Action"));
+                surveysPage.clickBtn(each.get("Action"));
+                BrowserUtils.sleep(1);
+                System.out.println("Verification: " + each.get("Verification"));
+                surveysPage.verify(each.get("Verification"));
+                BrowserUtils.sleep(1);
+            }
+        } else {
+            //converting Lists
+            List<List<String>> AVList = dataTable.asLists();
+            System.out.println("Action: " + AVList.get(0).get(0));
+            surveysPage.clickBtn(AVList.get(0).get(0));
+            BrowserUtils.sleep(1);
 
-        for (Map<String, String> each: actionVerificationTable){
-            surveysPage.clickBtn(each.get("Action"));
-            System.out.println("Click performed");
-            BrowserUtils.sleep(2);
-            surveysPage.verify(each.get("Verification"));
-            System.out.println("Verification passed");
-            BrowserUtils.sleep(2);
+            System.out.println("Verification: " + AVList.get(0).get(1));
+            surveysPage.clickBtn(AVList.get(0).get(1));
+            BrowserUtils.sleep(1);
         }
     }
 
@@ -70,5 +83,15 @@ public class US36SurveysDurakStepDefs {
     @Then("user delete generated survey on the list")
     public void deleteGeneratedSurvey() {
         surveysPage.eraseGeneratedSurvey();
+    }
+
+    @Given("user create a Survey")
+    public void userCreateAGeneratedSurvey() {
+        user_clicks_option_at_the_top_bar_of_the_home_page("Surveys");
+        user_should_be_landing_on_page("Surveys");
+        user_clicks_button("create");
+        user_enters_on_upcoming_window();
+        user_clicks_button("save");
+        System.out.println("New Survey is created");
     }
 }
