@@ -117,4 +117,93 @@ public class NewVehicleCostSteps {
         Driver.getDriver().findElement(By.xpath("//a[.='"+costType+"']")).click();
     }
 
+    @Then("User should be able to select a date {string} from Calendar")
+    public void user_should_be_able_to_select_a_date_from_calendar(String date) {
+
+        vehiclePage.calendarInput.sendKeys(date);
+        Assert.assertTrue(vehiclePage.calendarInput.isDisplayed());
+    }
+
+    @And("user selects a vehicle {string} and a type of cost")
+    public void user_selects_a_vehicle_and_a_type_of_cost(String carBrand) {
+        BrowserUtils.sleep(2);
+        vehiclePage.vehicleInput.click();
+
+        if (vehiclePage.vehicleSelect.getText().contains(carBrand)){
+            vehiclePage.vehicleSelect.click();
+        }else if (vehiclePage.vehicle2Select.getText().contains(carBrand)){
+            vehiclePage.vehicle2Select.click();
+        }else if (vehiclePage.vehicle3Select.getText().contains(carBrand)){
+            vehiclePage.vehicle3Select.click();
+        }else if (vehiclePage.vehicle4Select.getText().contains(carBrand)){
+            vehiclePage.vehicle4Select.click();
+        }
+
+        vehiclePage.typeInput.click();
+        vehiclePage.typeSelect.click();
+    }
+    @When("user enters the numeric characters {string} into the Total Price box")
+    public void user_enters_the_numeric_characters_into_the_total_price_box(String numerics) {
+        vehiclePage.totPriceInput.clear();
+        vehiclePage.totPriceInput.sendKeys(numerics);
+    }
+    @Then("User should be able to successfully save a cost for the vehicle {string}")
+    public void user_should_be_able_to_successfully_save_a_cost_for_the_vehicle(String carBrand) {
+
+        vehiclePage.saveBtn.click();
+        BrowserUtils.sleep(2);
+        /*
+        The appearance of the vehicle's name as a header means
+        that a new vehicle cost has been saved.
+        Btw we also check that it is written correctly.
+         */
+        Assert.assertTrue(vehiclePage.vehicleAfterSave.getText().contains(carBrand));
+        System.out.println("vehicleNameHeader = " + vehiclePage.vehicleNameHeader.getText());
+        Assert.assertEquals(vehiclePage.vehicleNameHeader.getText(), vehiclePage.vehicleAfterSave.getText());
+    }
+
+    @When("user enters the non numeric characters {string} into the Total Price box")
+    public void user_enters_the_non_numeric_characters_into_the_total_price_box(String non_numerics) {
+        vehiclePage.totPriceInput.clear();
+        vehiclePage.totPriceInput.sendKeys(non_numerics);
+    }
+    @Then("User should see {string} error message after saving")
+    public void user_should_see_error_message_after_saving(String errorMessage) {
+
+        vehiclePage.saveBtn.click();
+
+        wait.until(ExpectedConditions.visibilityOf(vehiclePage.invalidMessage));
+        System.out.println("expectedErrorMessage = " + errorMessage);
+        System.out.println("actualErrorMessage = " + vehiclePage.invalidMessage.getText());
+
+        Assert.assertEquals(errorMessage, vehiclePage.invalidMessage.getText());
+    }
+
+    @And("user enters total price {string} and selects a date {string}")
+    public void user_enters_total_price_and_selects_a_date(String price, String date) {
+        vehiclePage.totPriceInput.clear();
+        vehiclePage.totPriceInput.sendKeys(price);
+        vehiclePage.calendarInput.sendKeys(date);
+    }
+    @When("user clicks Save button")
+    public void user_clicks_save_button() {
+        BrowserUtils.sleep(2);
+        vehiclePage.saveBtn.click();
+    }
+    @Then("User should see the new vehicle {string} cost at the top of the list as dated {string}")
+    public void user_should_see_the_new_vehicle_cost_option_at_the_top_of_the_home_page(String carBrand, String date) {
+        vehiclePage.vehicleCostOpt.click();
+
+        WebElement groupName = Driver.getDriver().findElement(By.xpath("//*[contains(.,'"+carBrand+"')]/th"));
+        groupName.click();
+        BrowserUtils.sleep(3);
+
+        vehiclePage.dateTab.click();
+        BrowserUtils.sleep(3);
+
+        Assert.assertEquals(date, vehiclePage.dateToVerify.getText());
+
+
+    }
+
 }
