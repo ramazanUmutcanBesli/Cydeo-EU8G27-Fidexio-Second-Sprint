@@ -63,6 +63,68 @@ Feature: Create A New Vehicle Costs Function
       | Summer tires           |
       | Repair and maintenance |
 
+  #TC7
+  Scenario Outline:  Verify that 'Date' calendar dropdown opens and a date can be selected
+    When user clicks Fleet option
+    And user clicks Vehicle Costs option on the left side of the page
+    And user clicks Create button
+    Then User should be able to select a date "<date>" from Calendar
+
+    Examples: date
+      | date       |
+      | 01/01/2005 |
+      | 03/03/2018 |
+
+  #TC8
+  Scenario Outline: Verify that user can enter numeric characters into the 'Total Price'
+    When user clicks Fleet option
+    And user clicks Vehicle Costs option on the left side of the page
+    And user clicks Create button
+    And user selects a vehicle "<carBrand>" and a type of cost
+    When user enters the numeric characters "<numerics>" into the Total Price box
+    Then User should be able to successfully save a cost for the vehicle "<carBrand>"
+
+    Examples: Numeric characters
+      | numerics  | carBrand |
+      | 10000     | Audi     |
+      | 10000.00  | Mercedes |
+      | 10,000    | BMW      |
+      | 987654321 | Opel     |
+      | 10,000.00 | Audi     |
+
+
+  #TC9 #negative test case
+  Scenario Outline: Verify that after entering non numeric characters into 'Total Price' and saving, "The following fields are invalid" is displayed
+    When user clicks Fleet option
+    And user clicks Vehicle Costs option on the left side of the page
+    And user clicks Create button
+    And user selects a vehicle "<carBrand>" and a type of cost
+    When user enters the non numeric characters "<non-numerics>" into the Total Price box
+    Then User should see "The following fields are invalid:" error message after saving
+
+    Examples: Non numeric characters
+      | non-numerics      | carBrand |
+      | 10000$            | Audi     |
+      | One Thousand Euro | Mercedes |
+      | 10-000            | BMW      |
+      | 10000#            | Opel     |
+      | 1000+1000         | Audi     |
+      | 10000(Dollar)     | BMW      |
+
+  #TC10
+  Scenario Outline: Verify that user can see the new vehicle cost on the list
+    When user clicks Fleet option
+    And user clicks Vehicle Costs option on the left side of the page
+    And user clicks Create button
+    And user selects a vehicle "<carBrand>" and a type of cost
+    And user enters total price "<price>" and selects a date "<date>"
+    When user clicks Save button
+    Then User should see the new vehicle "<carBrand>" cost at the top of the list as dated "<date>"
+    Examples: date
+      | date       | carBrand | price |
+      | 01/01/1992 | Audi     | 1000  |
+      | 01/01/1991 | BMW      | 1500  |
+
 
 
 
