@@ -8,41 +8,39 @@ Feature: As a Posmanager, I should be able to create and edit a new employee fro
     And user clicks to login button
     Then user click Employees button
   #Smoke tag for Jenkins
-  @smoke
+  @smoke @FIDEX-559 @FIDEX-516
   Scenario: Pos manager should be able to see Employees New page after clicking Create button
     When Pos manager clicks create button
     Then Pos manager should see Employees New page
-
+  @FIDEX-560 @FIDEX-516
   Scenario: Pos manager should be able to see Employees Import a File page after clicking Import button
     When Pos manager clicks Import button
     Then Pos manager should see Import a File page
-
+  @FIDEX-561 @FIDEX-516
   Scenario: Pos manager should be able to see Next Employees Page after clicking Next button
     When Pos manager clicks Next button
     Then Pos manager should see Next Employees page
-
-
+  @FIDEX-562 @FIDEX-516
   Scenario: Pos manager should be able to see Previous Employees Page after clicking Previous button
     When Pos manager clicks Previous button
     Then Pos manager should see Previous Employees page
-
-
+  @FIDEX-563 @FIDEX-516
   Scenario: Pos manager should be able to see Listed Employees Page after clicking List button
     When Pos manager clicks List button
     Then Pos manager should see Listed Employees page
-
+  @FIDEX-564 @FIDEX-516
   Scenario: Pos manager should be able to see Kanban Employees Page after clicking Kanban button
     When Pos manager clicks Kanban button
     Then Pos manager should see Kanban Employees page
-
+  @FIDEX-565 @FIDEX-516
   Scenario: Pos manager should be able to follow any employee after clicking Follow button
     When Pos manager clicks Follow button
     Then Pos manager should see Following text on the button
-
+  @FIDEX-566 @FIDEX-516
   Scenario: Pos manager should be able to unfollow any employee after clicking Unfollow button
     When Pos manager clicks Unfollow button
     Then Pos manager should see Follow text on the button
-
+  @FIDEX-567 @FIDEX-516
   Scenario Outline: Pos manager should see "Employee Created" message after enters all credentials
     Given Pos manager clicks create button
     When Pos manager enters name "<name>"
@@ -66,8 +64,8 @@ Feature: As a Posmanager, I should be able to create and edit a new employee fro
       | Elon Musk | Sales      | Consultant  | Augustina Kenter | Ashley Presley | elon2space@mars.com | Atmosphere   | Mars        | 01915915915 | 0165588552 | Standard 40 hours/week | Customer Support   |
 
 
-
-  Scenario Outline: Pos manager should not be able to see "Employee Created" message after enters all credentials
+  @FIDEX-568 @FIDEX-516
+  Scenario Outline: Pos manager should not be able to see "Employee Created" message after enters special chars
     Given Pos manager clicks create button
     When Pos manager enters name "<name>"
     And Pos manager enters department "<department>"
@@ -89,7 +87,7 @@ Feature: As a Posmanager, I should be able to create and edit a new employee fro
       | name   | department | jobPosition | manager          | coach          | workEmail           | workLocation | workAddress | workMobile  | workPhone  | workingHours           | egPartTimeDropdown |
       | !$@%@^ | @$%#$%     | Consultant  | Augustina Kenter | Ashley Presley | elon2space@mars.com | Atmosphere   | Mars        | 01915915915 | 0165588552 | Standard 40 hours/week | Customer Support   |
 
-
+  @FIDEX-569 @FIDEX-516
   Scenario Outline: Pos manager should see created employee on the employee list
     Given Pos manager clicks create button
     When Pos manager enters name "<name>"
