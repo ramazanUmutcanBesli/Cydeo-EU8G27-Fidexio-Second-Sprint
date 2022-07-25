@@ -7,7 +7,7 @@ Feature: As a Posmanager, I should be able to create and edit a new employee fro
     And user enters password "posmanager"
     And user clicks to login button
     Then user click Employees button
-
+  #Smoke tag for Jenkins
   @smoke
   Scenario: Pos manager should be able to see Employees New page after clicking Create button
     When Pos manager clicks create button
