@@ -8,7 +8,7 @@ Feature:As a POSMANAGER, I should be able to enter a new Fuel Log for the vehicl
     And user clicks to login button
 
 
-  @FIDEX-524
+  @FIDEX-524 @smoke
   Scenario: Pos manager can create new Vehicles Fuel Logs
     Given user hits the more and fleet button
     And user hits the Vehicles Fuel Logs
