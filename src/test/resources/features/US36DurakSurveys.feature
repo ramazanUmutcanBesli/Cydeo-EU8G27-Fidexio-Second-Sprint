@@ -7,7 +7,7 @@ Feature: As a PosManager, I should be able to create and design a new survey fro
     And user enters password "posmanager"
     And user clicks to login button
 
-  @FIDEX-518 @FIDEX-539 @SurveyAutomated
+  @smoke @FIDEX-518 @FIDEX-539 @SurveyAutomated
   Scenario: US 36 TC001 [AutomationS4-AD] Verify all buttons before creating a Survey
     Then user clicks "Surveys" option at the top bar of the home page
     And user should be landing on "Surveys" page
