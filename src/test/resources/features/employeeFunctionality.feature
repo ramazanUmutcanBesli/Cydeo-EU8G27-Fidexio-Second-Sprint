@@ -8,6 +8,7 @@ Feature: As a Posmanager, I should be able to create and edit a new employee fro
     And user clicks to login button
     Then user click Employees button
 
+  @smoke
   Scenario: Pos manager should be able to see Employees New page after clicking Create button
     When Pos manager clicks create button
     Then Pos manager should see Employees New page
