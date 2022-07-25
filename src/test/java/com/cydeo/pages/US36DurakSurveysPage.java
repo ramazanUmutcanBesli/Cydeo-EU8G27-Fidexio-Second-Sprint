@@ -69,9 +69,6 @@ public class US36DurakSurveysPage extends BasePage {
     @FindBy(css = "div[data-id='1']>div.o_kanban_quick_create>button:nth-of-type(3)")
     public WebElement quickDiscard;
 
-    @FindBy()
-    public WebElement editBtn;
-
     @FindBy(css = "div.o_statusbar_buttons>button:nth-of-type(1)")
     public WebElement designSurveyBtn;
 
@@ -143,7 +140,8 @@ public class US36DurakSurveysPage extends BasePage {
     public void menuBar(String menuOption) {
         switch (menuOption.toLowerCase()) {
             case "surveys":
-                this.surveysButton.click();
+                wait.until(ExpectedConditions.elementToBeClickable(surveysButton));
+                actions.click(surveysButton).perform();
                 break;
         }
     }
