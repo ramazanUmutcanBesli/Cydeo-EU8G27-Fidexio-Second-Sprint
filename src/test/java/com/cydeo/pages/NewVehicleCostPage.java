@@ -65,17 +65,15 @@ public class NewVehicleCostPage {
     @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[1]")
     public WebElement vehicleInput;
 
-    @FindBy(xpath = "//ul[1]/li[@class='ui-menu-item'][1]")
-    public WebElement vehicleSelect;
+    @FindBy(xpath = "(//li[@class='o_m2o_dropdown_option ui-menu-item']/*[.='Search More...'])[1]")
+    public WebElement searchMore;
 
-    @FindBy(xpath = "//ul[1]/li[@class='ui-menu-item'][2]")
-    public WebElement vehicle2Select;
+    @FindBy(xpath =  "(//input[@class=\"o_searchview_input\"])[2]")
+    public WebElement searchInput;
 
-    @FindBy(xpath = "//ul[1]/li[@class='ui-menu-item'][3]")
-    public WebElement vehicle3Select;
+    @FindBy(xpath = "//tr/td[1][@class=\"o_data_cell o_required_modifier\"]")
+    public  WebElement firstCarNameSelect;
 
-    @FindBy(xpath = "//ul[1]/li[@class='ui-menu-item'][4]")
-    public WebElement vehicle4Select;
 
     @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[2]")
     public WebElement typeInput;
