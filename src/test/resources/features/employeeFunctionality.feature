@@ -45,21 +45,73 @@ Feature: As a Posmanager, I should be able to create and edit a new employee fro
   Scenario Outline: Pos manager should see "Employee Created" message after enters all credentials
     Given Pos manager clicks create button
     When Pos manager enters name "<name>"
-    When Pos manager enters department "<department>"
-    When Pos manager enters job position "<jobPosition>"
-    When Pos manager enters manager "<manager>"
-    When Pos manager enters coach "<coach>"
-    When Pos manager enters work email"<workEmail>"
-    When Pos manager enters work location "<workLocation>"
-    When Pos manager enters work address"<workAddress>"
-    When Pos manager enters work mobile"<workMobile>"
-    When Pos manager enters work phone"<workPhone>"
-    When Pos manager enters working hours"<workingHours>"
-    When Pos manager enters e.g Part time"<egPartTimeDropdown>"
+    And Pos manager enters department "<department>"
+    And Pos manager enters job position "<jobPosition>"
+    And Pos manager enters manager "<manager>"
+    And Pos manager enters coach "<coach>"
+    And Pos manager enters work email"<workEmail>"
+    And Pos manager enters work location "<workLocation>"
+    And Pos manager enters work address"<workAddress>"
+    And Pos manager enters work mobile"<workMobile>"
+    And Pos manager enters work phone"<workPhone>"
+    And Pos manager enters working hours"<workingHours>"
+    And Pos manager enters e.g Part time"<egPartTimeDropdown>"
     And Pos manager clicks save button
     Then Pos manager should see Employee Created message
 
-
+    @positiveTesting
     Examples: Valid Credentials
-      | name      | department | jobPosition | manager          | coach          | workEmail           | workLocation | workAddress         | workMobile  | workPhone  | workingHours           | egPartTimeDropdown |
-      | Elon Musk | Sales      | Consultant  | Augustina Kenter | Ashley Presley | elon2space@mars.com | Mars         | &*&*)_( (copy) | 01915915915 | 0165588552 | Standard 40 hours week | Customer Support   |
+      | name      | department | jobPosition | manager          | coach          | workEmail           | workLocation | workAddress | workMobile  | workPhone  | workingHours           | egPartTimeDropdown |
+      | Elon Musk | Sales      | Consultant  | Augustina Kenter | Ashley Presley | elon2space@mars.com | Atmosphere   | Mars        | 01915915915 | 0165588552 | Standard 40 hours/week | Customer Support   |
+
+
+
+  Scenario Outline: Pos manager should not be able to see "Employee Created" message after enters all credentials
+    Given Pos manager clicks create button
+    When Pos manager enters name "<name>"
+    And Pos manager enters department "<department>"
+    And Pos manager enters job position "<jobPosition>"
+    And Pos manager enters manager "<manager>"
+    And Pos manager enters coach "<coach>"
+    And Pos manager enters work email"<workEmail>"
+    And Pos manager enters work location "<workLocation>"
+    And Pos manager enters work address"<workAddress>"
+    And Pos manager enters work mobile"<workMobile>"
+    And Pos manager enters work phone"<workPhone>"
+    And Pos manager enters working hours"<workingHours>"
+    And Pos manager enters e.g Part time"<egPartTimeDropdown>"
+    And Pos manager clicks save button
+    Then Pos manager should see not be able to Employee Created message
+
+    @negativeTesting
+    Examples: Valid Credentials
+      | name   | department | jobPosition | manager          | coach          | workEmail           | workLocation | workAddress | workMobile  | workPhone  | workingHours           | egPartTimeDropdown |
+      | !$@%@^ | @$%#$%     | Consultant  | Augustina Kenter | Ashley Presley | elon2space@mars.com | Atmosphere   | Mars        | 01915915915 | 0165588552 | Standard 40 hours/week | Customer Support   |
+
+
+  Scenario Outline: Pos manager should see created employee on the employee list
+    Given Pos manager clicks create button
+    When Pos manager enters name "<name>"
+    And Pos manager enters department "<department>"
+    And Pos manager enters job position "<jobPosition>"
+    And Pos manager enters manager "<manager>"
+    And Pos manager enters coach "<coach>"
+    And Pos manager enters work email"<workEmail>"
+    And Pos manager enters work location "<workLocation>"
+    And Pos manager enters work address"<workAddress>"
+    And Pos manager enters work mobile"<workMobile>"
+    And Pos manager enters work phone"<workPhone>"
+    And Pos manager enters working hours"<workingHours>"
+    And Pos manager enters e.g Part time"<egPartTimeDropdown>"
+    And Pos manager clicks save button
+    And Pos manager should see Employee Created message
+    Then Pos manager should see "<name>" on the employee list
+
+    @positiveTesting
+    Examples: Valid Credentials
+      | name      | department | jobPosition | manager          | coach          | workEmail           | workLocation | workAddress | workMobile  | workPhone  | workingHours           | egPartTimeDropdown |
+      | Elon Musk | Sales      | Consultant  | Augustina Kenter | Ashley Presley | elon2space@mars.com | Atmosphere   | Mars        | 01915915915 | 0165588552 | Standard 40 hours/week | Customer Support   |
+
+
+
+

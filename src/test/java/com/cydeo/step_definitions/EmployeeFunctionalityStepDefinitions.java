@@ -3,11 +3,15 @@ package com.cydeo.step_definitions;
 import com.cydeo.pages.BasePage;
 import com.cydeo.pages.EmployeesPage;
 import com.cydeo.utilities.BrowserUtils;
+import com.cydeo.utilities.Driver;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 
 import java.security.Key;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -151,22 +155,22 @@ public class EmployeeFunctionalityStepDefinitions {
 
     @When("Pos manager enters department {string}")
     public void posManagerEntersDepartment(String department) {
-        employeesPage.inputDepartment.sendKeys(department+ Keys.ENTER);
+        employeesPage.inputDepartment.sendKeys(department + Keys.ENTER);
     }
 
     @When("Pos manager enters job position {string}")
     public void posManagerEntersJobPosition(String jobPosition) {
-        employeesPage.inputJobPosition.sendKeys(jobPosition+Keys.ENTER);
+        employeesPage.inputJobPosition.sendKeys(jobPosition + Keys.ENTER);
     }
 
     @When("Pos manager enters manager {string}")
     public void posManagerEntersManager(String manager) {
-        employeesPage.inputManager.sendKeys(manager+Keys.ENTER);
+        employeesPage.inputManager.sendKeys(manager + Keys.ENTER);
     }
 
     @When("Pos manager enters coach {string}")
     public void posManagerEntersCoach(String coach) {
-        employeesPage.inputCoach.sendKeys(coach+ Keys.ENTER);
+        employeesPage.inputCoach.sendKeys(coach + Keys.ENTER);
     }
 
     @When("Pos manager enters work email{string}")
@@ -181,29 +185,46 @@ public class EmployeeFunctionalityStepDefinitions {
 
     @When("Pos manager enters work address{string}")
     public void posManagerEntersWorkAddress(String workAddress) {
-        employeesPage.inputWorkAddress.sendKeys(workAddress+Keys.ENTER);
+        employeesPage.inputWorkAddress.sendKeys(workAddress + Keys.ENTER);
     }
 
     @When("Pos manager enters work mobile{string}")
     public void posManagerEntersWorkMobile(String workMobile) {
-        employeesPage.inputMobile.sendKeys(workMobile+Keys.ENTER);
+        employeesPage.inputMobile.sendKeys(workMobile + Keys.ENTER);
 
     }
 
     @When("Pos manager enters work phone{string}")
     public void posManagerEntersWorkPhone(String workPhone) {
-        employeesPage.inputPhone.sendKeys(workPhone+Keys.ENTER);
+        employeesPage.inputPhone.sendKeys(workPhone + Keys.ENTER);
     }
 
     @When("Pos manager enters working hours{string}")
     public void posManagerEntersWorkingHours(String workingHours) {
-        employeesPage.inputWorkingHours.sendKeys(workingHours);
+        employeesPage.inputWorkingHours.click();
+        BrowserUtils.waitForElementToBeClickable(employeesPage.inputWorkingHours40Hours);
+        employeesPage.inputWorkingHours40Hours.click();
     }
 
     @When("Pos manager enters e.g Part time{string}")
     public void posManagerEntersEGPartTime(String partTimeDropdown) {
-        employeesPage.inputegPartTime.sendKeys(partTimeDropdown+Keys.ENTER);
+        employeesPage.inputegPartTimeClickable.click();
+        //    BrowserUtils.waitForVisibilityOf(employeesPage.oneOfEGPartTimeOption);
+        BrowserUtils.sleep(1); //find another solution
+
+        List<WebElement> options = employeesPage.inputegPartTime;
+        for (WebElement option : options) {
+            String optionText = option.getText();
+
+            if (optionText.equals(partTimeDropdown)) {
+                option.click();
+                break;
+            }
+            System.out.println(optionText);
+        }
+
     }
+
 
     @Then("Pos manager clicks save button")
     public void posManagerClicksSaveButton() {
@@ -213,6 +234,30 @@ public class EmployeeFunctionalityStepDefinitions {
 
     @Then("Pos manager should see Employee Created message")
     public void posManagerShouldSeeEmployeeCreatedMessage() {
+        assertTrue(employeesPage.employeeCreatedMessage.isDisplayed());
+    }
+
+
+    @Then("Pos manager should see {string} on the employee list")
+    public void posManagerShouldSeeOnTheEmployeeList(String employeeName) {
+        basePage.employeesButton.click();
+
+        List<WebElement> pageOneEmployeeNames = employeesPage.createdEmployeeNames;
+        for (WebElement each : pageOneEmployeeNames) {
+            String eachEmployeeName = each.getText();
+            if (eachEmployeeName.equals(employeeName)) {
+                assertTrue(true);
+                break;
+            }
+            System.out.println(eachEmployeeName);
+        }
 
     }
+
+
+    @Then("Pos manager should see not be able to Employee Created message")
+    public void posManagerShouldSeeNotBeAbleToEmployeeCreatedMessage() {
+        assertFalse(employeesPage.employeeCreatedMessage.isDisplayed());
+    }
 }
+

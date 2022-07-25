@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class EmployeesPage {
 
     public EmployeesPage() {
@@ -37,44 +39,42 @@ public class EmployeesPage {
     public WebElement followButton;
     @FindBy(xpath = "//span[@class='o_unfollow']/..")
     public WebElement unfollowButton;
-    ///html/body/div[1]/div[2]/div[2]/div/div/div/div[1]/div[2]/div[3]/button/span[1]
-    ///html/body/div[1]/div[2]/div[2]/div/div/div/div[2]/div[2]/div[3]/button/span[1]
-    @FindBy(xpath = "//a[@href='/web#menu_id=115&action=120']")
-    public WebElement badgesLinkTag;
-    @FindBy(xpath = "//a[@href='/web#menu_id=293&action=399']")
-    public WebElement challengesLinkTag;
-    @FindBy(xpath = "//a[@href='/web#menu_id=294&action=398']")
-    public WebElement goalsHistoryLinkTag;
-    @FindBy(id = "o_field_input_19")
+    @FindBy(xpath = "//input[@class='o_field_char o_field_widget o_input o_required_modifier']")
     public WebElement inputEmployeeName;
-
-    @FindBy(id = "o_field_input_20")
-    public WebElement inputegPartTime;
-
-    @FindBy(id = "o_field_input_22")
+    @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[1]")
+    public WebElement inputegPartTimeClickable;
+    @FindBy(xpath = "(//*[@class='ui-menu-item'])/a")
+    public List<WebElement> inputegPartTime;
+    @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[2]")
     public WebElement inputWorkAddress;
-    @FindBy(css = "#o_field_input_712")
+    @FindBy(xpath = "(//input[@class='o_field_char o_field_widget o_input'])[1]")
     public WebElement inputWorkLocation;
-    @FindBy(css = "#o_field_input_713")
+    @FindBy(xpath = "(//input[@class='o_field_email o_field_widget o_input'])")
     public WebElement inputWorkEmail;
-    @FindBy(css = "#o_field_input_714")
+    @FindBy(xpath = "(//input[@class='o_field_char o_field_widget o_input'])[2]")
     public WebElement inputMobile;
-    @FindBy(css = "#o_field_input_715")
+    @FindBy(xpath = "(//input[@class='o_field_char o_field_widget o_input'])[3]")
     public WebElement inputPhone;
-    @FindBy(css = "#o_field_input_716")
+    @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[3]")
     public WebElement inputDepartment;
-    @FindBy(css = "#o_field_input_717")
+    @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[4]")
     public WebElement inputJobPosition;
-    @FindBy(css = "#o_field_input_718")
+    @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[5]")
     public WebElement inputManager;
-    @FindBy(css = "#o_field_input_719")
+    @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[6]")
     public WebElement inputCoach;
-    @FindBy(css = "#o_field_input_721")
+    @FindBy(xpath = "(//input[@class='o_input ui-autocomplete-input'])[7]")
     public WebElement inputWorkingHours;
-    @FindBy(xpath = "//*[.='Save']")
+    @FindBy(xpath = "(//*[.='Standard 40 Hours/Week'])[1]")
+    public WebElement inputWorkingHours40Hours;
+    @FindBy(xpath = "//button[@class='btn btn-primary btn-sm o_form_button_save']")
     public WebElement saveButton;
     @FindBy(xpath = "//*[.='Employee created']")
     public WebElement employeeCreatedMessage;
+    @FindBy(xpath = "//div/strong/div/strong/span")
+    public List<WebElement> createdEmployeeNames;
+    @FindBy(xpath = "//*[@id=\"ui-id-73\"]/a")
+    public WebElement oneOfEGPartTimeOption;
 
 
 

@@ -97,5 +97,20 @@ public class BrowserUtils {
         wait.until(ExpectedConditions.elementToBeClickable(webElement));
 
     }
+    public static void clickNonSelectDropdown(List<WebElement> nonSelectDropdown,String attributeValue){
+        for (WebElement each : nonSelectDropdown) {
+            if (each.getText().equals(attributeValue)){
+                each.click();
+                break;
+            }
+        }
+    }
+
+    public static void waitForVisibilityOf(WebElement webElement) {
+        // Driver.getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+        wait.until(ExpectedConditions.visibilityOf(webElement));
+
+    }
 
 }
