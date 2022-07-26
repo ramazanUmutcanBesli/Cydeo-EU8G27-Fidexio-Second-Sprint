@@ -132,12 +132,13 @@ public class US36DurakSurveysPage extends BasePage {
         switch (menuOption.toLowerCase()) {
             case "surveys":
                 try {
-                    wait.withTimeout(Duration.ofSeconds(3))
-                            .until(ExpectedConditions.visibilityOf(surveysButton));
+                    Driver.getDriver().manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+                    surveysButton.click();
                 }catch (Exception clickMoreButton){
                     menuBar("more button");
                 }
-                actions.click(surveysButton).perform();
+                surveysButton.click();
+                Driver.getDriver().manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
                 break;
             case "more button":
                 moreButton.click();
@@ -233,7 +234,7 @@ public class US36DurakSurveysPage extends BasePage {
             verificationValue = generatedSurveyTitle;
         }
         try {
-            wait.withTimeout(Duration.ofSeconds(2)).until(ExpectedConditions.titleContains(verificationValue));
+            wait.withTimeout(Duration.ofSeconds(8)).until(ExpectedConditions.titleContains(verificationValue));
         } catch (TimeoutException ignored) {}
         if (Driver.getDriver().getTitle().contains(verificationValue)) {
             Assert.assertTrue(Driver.getDriver().getTitle().contains(verificationValue));
@@ -345,9 +346,6 @@ public class US36DurakSurveysPage extends BasePage {
     public void generateSurvey() {
         Faker fakeSurveyTitle = new Faker();
         generatedSurveyTitle = fakeSurveyTitle.animal().name();
-        //System.out.println(generatedSurveyTitle);
-        menuBar("Surveys");
-        BrowserUtils.sleep(1);
         this.surveyTitle.sendKeys(generatedSurveyTitle);
     }
     public String getGeneratedSurveyTitle(){
