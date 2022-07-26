@@ -15,7 +15,7 @@ Feature: Create A New Vehicle Costs Function
     Then User should see "Fleet" option at the top of the home page
     And User should be able to click on Fleet option
 
-  @FIDEX-548  #2
+  @FIDEX-548 @smoke  #2
   Scenario: Verify that user can land on 'Fleet' page
     When user clicks Fleet option
     Then User should see Vehicles options on the left side of the page respectively
