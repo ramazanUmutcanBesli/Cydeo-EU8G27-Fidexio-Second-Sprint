@@ -25,12 +25,12 @@ Feature: As a PosManager, I should be able to create and design a new survey fro
     Given user create a Survey
     And user clicks listed buttons
       | Action                    | Verification           |
-      | Design Survey             | my-new-survey          |
+      | Design Survey             | generated survey title |
       | Start Survey              | Survey has no pages    |
       | Back To Survey            | generated survey title |
       | Test Survey               | generated survey title |
       | Back To Survey            | generated survey title |
-      | Print Survey              | Print                  |
+      | Print Survey              | print                  |
       | Back To Survey            | generated survey title |
       | Share and invite by email | Error                  |
       | View results              | Survey Result          |
