@@ -1,4 +1,4 @@
-@Calendar
+@FIDEX-538
 Feature:
 
 	Background: As a POS Manager, user is on the home page
