@@ -42,7 +42,7 @@ Feature:Fidexio Sales Functionality
     When sales Manager click TIN Tags
     When sales Manager click Language select Button
     Then sales Manager should see English can be selected
-  @FIDEX-594 @wip
+  @FIDEX-594 @wip @smoke
   Scenario: Sales Manager create new Customer
     When sales Manager click Sales button
     And  sales Manager click Customers button
