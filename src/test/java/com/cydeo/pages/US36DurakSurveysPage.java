@@ -120,17 +120,8 @@ public class US36DurakSurveysPage extends BasePage {
     @FindBy(xpath = "//div[@data-id='1']/div[contains(@class,'oe_kanban_card')]//div/h4/span")
     List<WebElement> surveyList;
 
-    /**
-     * This method will pick random color from three dot menu for created survey
-     * This method will accept no parameter
-     */
-    public void setColor() {
-        int randomNum = new Random().nextInt(11) + 2; //Random numbers between 2-12, 1 is default selection
-
-        WebElement setColor = Driver.getDriver().findElement(By.cssSelector(".oe_kanban_colorpicker>li:nth-of-type(" + randomNum + ")"));
-        setColor.click();
-
-    }
+    @FindBy(css = "#menu_more_container>a")
+    public WebElement moreButton;
 
     /**
      * This method will navigate ot the selected menu option
@@ -140,8 +131,17 @@ public class US36DurakSurveysPage extends BasePage {
     public void menuBar(String menuOption) {
         switch (menuOption.toLowerCase()) {
             case "surveys":
-                wait.until(ExpectedConditions.elementToBeClickable(surveysButton));
-                actions.click(surveysButton).perform();
+                try {
+                    Driver.getDriver().manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+                    surveysButton.click();
+                }catch (Exception clickMoreButton){
+                    menuBar("more button");
+                }
+                surveysButton.click();
+                Driver.getDriver().manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+                break;
+            case "more button":
+                moreButton.click();
                 break;
         }
     }
@@ -201,9 +201,6 @@ public class US36DurakSurveysPage extends BasePage {
             case "three dot edit survey":
                 this.editGeneratedSurvey();
                 break;
-            case "select any color":
-                this.setColor();
-                break;
             case "plus button":
                 this.plusBtn.click();
                 break;
@@ -237,7 +234,7 @@ public class US36DurakSurveysPage extends BasePage {
             verificationValue = generatedSurveyTitle;
         }
         try {
-            wait.withTimeout(Duration.ofSeconds(2)).until(ExpectedConditions.titleContains(verificationValue));
+            wait.withTimeout(Duration.ofSeconds(8)).until(ExpectedConditions.titleContains(verificationValue));
         } catch (TimeoutException ignored) {}
         if (Driver.getDriver().getTitle().contains(verificationValue)) {
             Assert.assertTrue(Driver.getDriver().getTitle().contains(verificationValue));
@@ -254,6 +251,8 @@ public class US36DurakSurveysPage extends BasePage {
                 case "No activities":
                     Assert.assertEquals("No activities planned.",this.noActivity.getText());
                     break;
+                default:
+                    Assert.fail();
             }
         }
     }
@@ -264,10 +263,13 @@ public class US36DurakSurveysPage extends BasePage {
      *
      * @param wantedSurveyTitle
      */
-    public boolean searchSurveyTitle(String wantedSurveyTitle) {
-        List<WebElement> surveyList = Driver.getDriver().findElements(By.cssSelector("div[data-id='1']>div.oe_kanban_card>div>h4>span"));
-        for (WebElement each : surveyList) {
-            if (each.getText().equalsIgnoreCase(wantedSurveyTitle)) return true;
+    public boolean isSurveyOnTheList(String wantedSurveyTitle) {
+        try {
+            List<WebElement> surveyList = Driver.getDriver().findElements(By.cssSelector("div[data-id='1']>div.oe_kanban_card>div>h4>span"));
+            for (WebElement each : surveyList) {
+                if (each.getText().equalsIgnoreCase(wantedSurveyTitle)) return true;
+            }
+        } catch (Exception ignored) {
         }
         return false;
     }
@@ -278,30 +280,45 @@ public class US36DurakSurveysPage extends BasePage {
      */
     public void eraseGeneratedSurvey() {
         String willBeDeletedSurvey = generatedSurveyTitle;
-        for (WebElement each : surveyList) {
-            if (each.getText().equalsIgnoreCase(willBeDeletedSurvey)) {
-                String threeDot = "//div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + willBeDeletedSurvey + "']/../../..//a[@class='dropdown-toggle btn']";
-                WebElement threeDotBtn = Driver.getDriver().findElement(By.xpath(threeDot));
-                actions.click(threeDotBtn);
-                String path = "//div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + willBeDeletedSurvey + "']/../../..//ul/li//a[@*='delete']";
-                WebElement deleteSurvey = Driver.getDriver().findElement(By.xpath(path));
-                actions.click(deleteSurvey).perform();
+        if (isSurveyOnTheList(willBeDeletedSurvey)) {
+            eraseAction(willBeDeletedSurvey, 3);
+        }
 
-                //Confirmation message pops up
-                //This command clicks OK
-                this.confirmationOK.click();
-                BrowserUtils.sleep(1);
-                //If a failure message pops up, these lines close it
-                Driver.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-                try {
-                    if (this.errorOK.isDisplayed()) {
-                        this.errorOK.click();
-                        System.out.println("Survey couldn't be erased!!!");
-                    }
-                } catch (Exception ignored) {
-                    System.out.println("Survey is deleted successfully");
-                }
+    }
+
+    public void threeDotClick(String surveyName) {
+        String threeDot = "//div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + surveyName + "']/../../..//a[@class='dropdown-toggle btn']";
+        WebElement threeDotBtn = Driver.getDriver().findElement(By.xpath(threeDot));
+        actions.click(threeDotBtn);
+    }
+
+    public void threeDotDeleteClick(String surveyName) {
+        String path = "//div[contains(@class,'oe_kanban_card')]//div/h4/span[text()='" + surveyName + "']/../../..//ul/li//a[@*='delete']";
+        WebElement deleteSurvey = Driver.getDriver().findElement(By.xpath(path));
+        actions.click(deleteSurvey).perform();
+    }
+
+    public void eraseAction(String willBeDeletedSurvey, int delAttempt) {
+        if (delAttempt == 0) return;
+        Driver.getDriver().navigate().refresh();
+        threeDotClick(willBeDeletedSurvey);
+        threeDotDeleteClick(willBeDeletedSurvey);
+
+        //Confirmation message pops up
+        //This command clicks OK
+        actions.click(confirmationOK).perform();
+        BrowserUtils.sleep(3);
+        //If a failure message pops up, these lines close it
+        //Driver.getDriver().manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        try {
+            if (!isSurveyOnTheList(willBeDeletedSurvey)) {
+                System.out.println("Survey is deleted successfully");
+            } else {
+                System.out.println("Survey couldn't be erased!!!\nTrying one more time!!!\nAttempt left: " + (delAttempt - 1));
+                eraseAction(willBeDeletedSurvey, delAttempt - 1);
             }
+        } catch (Exception ignored) {
+            System.out.println("Failure");
         }
     }
 
@@ -326,12 +343,12 @@ public class US36DurakSurveysPage extends BasePage {
      * This method generates a random Survey Title
      * no @param
      */
-    public void generateSurvey(){
+    public void generateSurvey() {
         Faker fakeSurveyTitle = new Faker();
         generatedSurveyTitle = fakeSurveyTitle.animal().name();
-        //System.out.println(generatedSurveyTitle);
-        this.surveyTitle.click();
-        BrowserUtils.sleep(1);
         this.surveyTitle.sendKeys(generatedSurveyTitle);
+    }
+    public String getGeneratedSurveyTitle(){
+        return generatedSurveyTitle;
     }
 }
