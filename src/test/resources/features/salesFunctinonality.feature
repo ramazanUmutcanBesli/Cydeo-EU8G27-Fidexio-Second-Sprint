@@ -1,4 +1,4 @@
-@smoke
+@wip
 Feature:Fidexio Sales Functionality
 
   User Story:
@@ -21,14 +21,49 @@ Feature:Fidexio Sales Functionality
     And user enters password "salesmanager"
     And user clicks to login button
 
+  @FIDEX-593 @wip
+  Scenario: Sales Manager should select all button as expected in Design Stage
+    When sales Manager click Sales button
+    And  sales Manager click Customers button
+    And  sales Manager click create button
+    Then sales Manager should see Individual was automatically selected
+    When sales Manager click Company Button
+    Then sales Manager should see Company is selected
+    When sales Manager click Internal Notes
+    Then sales Manager should see Internal Notes can be selected
+    When sales Manager click Sales & Purchases
+    Then sales Manager should see Sales & Purchases can be selected
+    When sales Manager click Invoicing
+    Then sales Manager should see Invoicing can be selected
+    When sales Manager click Company select button
+    Then sales Manager should see Company select button can be writtable
+    When sales Manager click Address Type select button
+    Then sales Manager should see Address Type can be selected
+    When sales Manager click TIN Tags
+    When sales Manager click Language select Button
+    Then sales Manager should see English can be selected
+  @FIDEX-594 @wip
+  Scenario: Sales Manager create new Customer
+    When sales Manager click Sales button
+    And  sales Manager click Customers button
+    And  sales Manager click create button
+    And sales Manager select individual type of customer
+    And sales Manager write customers' name
+    And sales Manager select customers' company
+    And sales Manager select Address Type
+    And sales Manager write customers' Address
+    And sales Manager select customers' country
+    And sales Manager select TIN Tags
+    And sales Manager write customers' Job Position
+    And sales Manager write customers' phone
+    And sales Manager write customers' Mobile phone
+    And sales Manager write customers' Email
+    And sales Manager write customers' Website
+    And sales Manager write customers' Title
+    And sales Manager write customers' Language
+    And sales Manager click save button
+    Then sales Manager should see created Customer
 
 
-  Scenario: Sales Manager should click create button
-    Given sales Manager click Sales button on the Home Page
-    And sales Manager click Customers button in Orders List
-    When sales Manager click create button
-    Then sales Manager should see "New-Odoo" in Page Title
 
-  Scenario: Sales Manager should click individual Select button
-    When sales Manager click Individual Select button
-    Then sales Manager can should see individual button is selected
+
