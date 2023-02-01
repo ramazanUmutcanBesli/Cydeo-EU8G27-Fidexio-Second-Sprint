@@ -34,7 +34,7 @@ public class BasePage {
     public WebElement inventoryButton;
     @FindBy(xpath = "//span[contains(.,' Repairs')]")
     public WebElement repairsButton;
-    @FindBy(xpath = "//span[contains(.,' Invoicing')]")
+    @FindBy(xpath = "//span[contains(.,' Invoicing')]")//ahmet
     public  WebElement invoicingButton;
     @FindBy(xpath = "//span[contains(.,' Email Marketing')]")
     public WebElement eMailMarketingButton;
@@ -42,7 +42,7 @@ public class BasePage {
     public WebElement eventsButton;
     @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,' Employees')]")
     public WebElement employeesButton;
-    @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,' Leaves')]")
+    @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,' Leaves')]")//master
     public WebElement leavesButton;
     @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,' Expenses')]")
     public WebElement expensesButton;
