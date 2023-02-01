@@ -34,7 +34,7 @@ public class BasePage {
     public WebElement inventoryButton;
     @FindBy(xpath = "//span[contains(.,' Repairs')]")
     public WebElement repairsButton;
-    @FindBy(xpath = "//span[contains(.,' Invoicing')]")
+    @FindBy(xpath = "//span[contains(.,' Invoicing')]")//ahmet
     public  WebElement invoicingButton;
     @FindBy(xpath = "//span[contains(.,' Email Marketing')]")
     public WebElement eMailMarketingButton;
