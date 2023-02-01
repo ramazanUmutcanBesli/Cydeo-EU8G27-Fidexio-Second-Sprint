@@ -8,6 +8,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -77,7 +78,7 @@ public class US36SurveysDurakStepDefs {
 
     @Then("verify that user should see created survey in Survey module")
     public void verifyThatUserShouldSeeCreatedSurveyInSurveyModule() {
-        boolean isSurveyExist = surveysPage.searchSurveyTitle(surveysPage.generatedSurveyTitle);
+        boolean isSurveyExist = surveysPage.isSurveyOnTheList(US36DurakSurveysPage.generatedSurveyTitle);
         Assert.assertTrue(isSurveyExist);
 
     }
@@ -94,6 +95,6 @@ public class US36SurveysDurakStepDefs {
         user_clicks_button("create");
         user_enters_on_upcoming_window();
         user_clicks_button("save");
-        System.out.println("New Survey is created");
+        System.out.println("New Survey is created\nSurvey name: " + surveysPage.getGeneratedSurveyTitle());
     }
 }

@@ -4,14 +4,19 @@ import com.cydeo.pages.BasePage;
 import com.cydeo.pages.NewVehicleCostPage;
 import com.cydeo.utilities.BrowserUtils;
 import com.cydeo.utilities.Driver;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewVehicleCostSteps {
 
@@ -38,9 +43,11 @@ public class NewVehicleCostSteps {
         vehiclePage.fleetBtn.click();
 
     }
-    /*
+
     @Then("User should see Vehicles options on the left side of the page respectively")
-    public void user_should_see_vehicles_options_on_the_left_side_of_the_page_respectively(io.cucumber.datatable.DataTable dataTable) throws Throwable {
+    public void user_should_see_vehicles_options_on_the_left_side_of_the_page_respectively(DataTable dataTable){
+        BrowserUtils.sleep(2);
+
         List<String> vehiclesOptions = new ArrayList<>();
         vehiclesOptions.add(vehiclePage.vehiclesOpt.getText());
         vehiclesOptions.add(vehiclePage.vehiclesOdoOpt.getText());
@@ -49,30 +56,20 @@ public class NewVehicleCostSteps {
         vehiclesOptions.add(vehiclePage.vehiclesFuelOpt.getText());
         vehiclesOptions.add(vehiclePage.vehiclesServOpt.getText());
 
-        List<String> expectedOptions = dataTable.asList(String.class);
+        List<List<String>> expectedOptions = dataTable.asLists(String.class);
 
         System.out.println(vehiclesOptions);
 
-        System.out.println(expectedOptions);
+        System.out.println(expectedOptions.get(0));
 
-        Assert.assertEquals(expectedOptions, vehiclesOptions);
-    }
-     */
-    @Then("User should see {string}, {string}, {string}, {string}, {string}, {string} options on the left side of the page")
-    public void user_should_see_options_on_the_left_side_of_the_page(String option1, String option2, String option3, String option4, String option5, String option6) {
-        BrowserUtils.sleep(2);
-        Assert.assertEquals(option1,vehiclePage.vehiclesOpt.getText());
-        Assert.assertEquals(option2,vehiclePage.vehiclesOdoOpt.getText());
-        Assert.assertEquals(option3,vehiclePage.vehicleCostOpt.getText());
-        Assert.assertEquals(option4,vehiclePage.vehiclesContOpt.getText());
-        Assert.assertEquals(option5,vehiclePage.vehiclesFuelOpt.getText());
-        Assert.assertEquals(option6,vehiclePage.vehiclesServOpt.getText());
+        Assert.assertEquals(expectedOptions.get(0), vehiclesOptions);
     }
 
     @When("user clicks Vehicle Costs option on the left side of the page")
     public void user_clicks_vehicle_costs_option_on_the_left_side_of_the_page() {
         BrowserUtils.sleep(1);
         vehiclePage.vehicleCostOpt.click();
+        BrowserUtils.sleep(2);
     }
     @Then("User should see {string} option text at the top of the page")
     public void user_should_see_option_text_at_the_top_of_the_page(String expectedText) {
@@ -99,11 +96,15 @@ public class NewVehicleCostSteps {
     public void user_should_be_able_to_select_a_vehicle_from_vehicle_dropdown(String vehicleName) {
 
         System.out.println("vehicleName = " + vehicleName);
-        BrowserUtils.sleep(2);
-        vehiclePage.vehicleInput.click();
 
-        Assert.assertEquals(vehicleName, Driver.getDriver().findElement(By.xpath("//a[.='"+vehicleName+"']")).getText());
-        Driver.getDriver().findElement(By.xpath("//a[.='"+vehicleName+"']")).click();
+        vehiclePage.vehicleInput.click();
+        vehiclePage.searchMore.click();
+        vehiclePage.searchInput.sendKeys(vehicleName + Keys.ENTER);
+        BrowserUtils.sleep(3);
+        vehiclePage.firstCarNameSelect.click();
+        vehiclePage.saveBtn.click();
+
+        Assert.assertEquals(vehicleName, vehiclePage.vehicleAfterSave.getText());
     }
 
     @Then("User should be able to select a type of cost {string} from Type dropdown")
@@ -125,19 +126,15 @@ public class NewVehicleCostSteps {
     }
 
     @And("user selects a vehicle {string} and a type of cost")
-    public void user_selects_a_vehicle_and_a_type_of_cost(String carBrand) {
+    public void user_selects_a_vehicle_and_a_type_of_cost(String vehicle) {
         BrowserUtils.sleep(2);
-        vehiclePage.vehicleInput.click();
+        System.out.println("vehicle = " + vehicle);
 
-        if (vehiclePage.vehicleSelect.getText().contains(carBrand)){
-            vehiclePage.vehicleSelect.click();
-        }else if (vehiclePage.vehicle2Select.getText().contains(carBrand)){
-            vehiclePage.vehicle2Select.click();
-        }else if (vehiclePage.vehicle3Select.getText().contains(carBrand)){
-            vehiclePage.vehicle3Select.click();
-        }else if (vehiclePage.vehicle4Select.getText().contains(carBrand)){
-            vehiclePage.vehicle4Select.click();
-        }
+        vehiclePage.vehicleInput.click();
+        vehiclePage.searchMore.click();
+        vehiclePage.searchInput.sendKeys(vehicle + Keys.ENTER);
+        BrowserUtils.sleep(3);
+        vehiclePage.firstCarNameSelect.click();
 
         vehiclePage.typeInput.click();
         vehiclePage.typeSelect.click();
@@ -148,7 +145,7 @@ public class NewVehicleCostSteps {
         vehiclePage.totPriceInput.sendKeys(numerics);
     }
     @Then("User should be able to successfully save a cost for the vehicle {string}")
-    public void user_should_be_able_to_successfully_save_a_cost_for_the_vehicle(String carBrand) {
+    public void user_should_be_able_to_successfully_save_a_cost_for_the_vehicle(String vehicle) {
 
         vehiclePage.saveBtn.click();
         BrowserUtils.sleep(2);
@@ -157,7 +154,7 @@ public class NewVehicleCostSteps {
         that a new vehicle cost has been saved.
         Btw we also check that it is written correctly.
          */
-        Assert.assertTrue(vehiclePage.vehicleAfterSave.getText().contains(carBrand));
+        Assert.assertEquals(vehicle, vehiclePage.vehicleNameHeader.getText());
         System.out.println("vehicleNameHeader = " + vehiclePage.vehicleNameHeader.getText());
         Assert.assertEquals(vehiclePage.vehicleNameHeader.getText(), vehiclePage.vehicleAfterSave.getText());
     }
@@ -184,6 +181,7 @@ public class NewVehicleCostSteps {
         vehiclePage.totPriceInput.clear();
         vehiclePage.totPriceInput.sendKeys(price);
         vehiclePage.calendarInput.sendKeys(date);
+        System.out.println("date = " + date);
     }
     @When("user clicks Save button")
     public void user_clicks_save_button() {
@@ -191,10 +189,10 @@ public class NewVehicleCostSteps {
         vehiclePage.saveBtn.click();
     }
     @Then("User should see the new vehicle {string} cost at the top of the list as dated {string}")
-    public void user_should_see_the_new_vehicle_cost_option_at_the_top_of_the_home_page(String carBrand, String date) {
+    public void user_should_see_the_new_vehicle_cost_option_at_the_top_of_the_home_page(String vehicle, String date) {
         vehiclePage.vehicleCostOpt.click();
 
-        WebElement groupName = Driver.getDriver().findElement(By.xpath("//*[contains(.,'"+carBrand+"')]/th"));
+        WebElement groupName = Driver.getDriver().findElement(By.xpath("//*[contains(.,'"+vehicle+"')]/th"));
         groupName.click();
         BrowserUtils.sleep(3);
 
@@ -202,7 +200,6 @@ public class NewVehicleCostSteps {
         BrowserUtils.sleep(3);
 
         Assert.assertEquals(date, vehiclePage.dateToVerify.getText());
-
 
     }
 
