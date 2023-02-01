@@ -42,7 +42,7 @@ public class BasePage {
     public WebElement eventsButton;
     @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,' Employees')]")
     public WebElement employeesButton;
-    @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,' Leaves')]")
+    @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,' Leaves')]")//master
     public WebElement leavesButton;
     @FindBy(xpath = "//div[@class='navbar-collapse collapse']/ul/li/a/span[contains(.,' Expenses')]")
     public WebElement expensesButton;
