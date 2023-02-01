@@ -17,3 +17,5 @@ public class LoginPage {
     @FindBy(xpath = "//button[@type='submit']")
     public WebElement loginButton;
 }
+
+// so dele Eren
