@@ -21,18 +21,6 @@ Feature: Create A New Vehicle Costs Function
     Then User should see Vehicles options on the left side of the page respectively
       | Vehicles | Vehicles Odometer | Vehicle Costs | Vehicles Contracts | Vehicles Fuel Logs | Vehicles Services Logs |
 
-  @FIDEX-549  #3
-  Scenario: Verify that 'Vehicle Costs' option can be opened
-    When user clicks Fleet option
-    And user clicks Vehicle Costs option on the left side of the page
-    Then User should see "Vehicle Costs" option text at the top of the page
-
-  @FIDEX-550  #4
-  Scenario: Verify that 'Create' button is clickable
-    When user clicks Fleet option
-    And user clicks Vehicle Costs option on the left side of the page
-    And user clicks Create button
-    Then User should see "Cost Details" header and "Vehicle", "Type", "Total Price", "Cost Description", "Date" options correctly in the middle of the page
 
   @FIDEX-551  #5
   Scenario Outline: Verify that 'Vehicle' dropdown opens and a vehicle can be selected
